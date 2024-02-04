@@ -6,7 +6,7 @@ export default defineConfig({
   server:{
     proxy:{
       "/api/":{
-        target:"https://supportdesk-hm1g.onrender.com",
+        target:"https://supportdesk-hm1g.onrender.com/",
         changeOrigin:true
       }
     }
