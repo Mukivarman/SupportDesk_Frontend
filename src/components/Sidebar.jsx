@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import '../assets/css/SideBar.css'
+
 import Details from "./SidebarDetails";
 import Notification from "./Notification";
 
@@ -12,7 +12,7 @@ export default function SideBar(){
   const dept=localStorage.getItem('dept')
   const department=dept?JSON.parse(dept):''
 
-  
+
   const [notification,setnotification]=useState(false)
   const [deatail,setdetails]=useState(true)
 
