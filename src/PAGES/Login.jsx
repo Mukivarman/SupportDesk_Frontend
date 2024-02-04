@@ -87,7 +87,7 @@ export default function Login(){
         if(inputs.log_detail!=""&&inputs.userPassword!=""){
             if(!checkspace(inputs.log_detail)&&!checkspace(inputs.userPassword)){
                 setmsg("")
-                try{
+               
                     localStorage.setItem("loguser",null);
                           const req=  await fetch("/api/Login",{
                                 method:'Post',
@@ -132,9 +132,7 @@ export default function Login(){
 
 
 
-            }catch(e){
-console.error  (e)
-            }
+        
             
         }else{
                 setmsg("Username/Email or password contain Space")
