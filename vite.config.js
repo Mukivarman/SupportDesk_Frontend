@@ -6,7 +6,7 @@ export default defineConfig({
   server:{
     proxy:{
       "/api/":{
-        target:"http://localhost:3500/",
+        target:"https://ill-gray-fly-tux.cyclic.app/",
         changeOrigin:true
       }
     }
