@@ -1,25 +1,23 @@
 import React, { useEffect } from "react";
-import SideBar from "../components/Sidebar";
 import LogNavbar from "../components/navbar";
-import { Link, Navigate } from "react-router-dom";
-
 import Piechart from "../components/Piecharts";
 import { useState } from "react";
 import Barchart from "../components/Barcharts";
 import { checkalreadyclint } from "../js/tools";
 import { useNavigate } from "react-router-dom";
+import Buttons from "../components/Buttons";
+import Divs from "../components/DivsInStatuspage";
 
 
 export default function SupportTeamHomePage(){
-
+  const theme=localStorage.getItem('theme')
     const [Status,setStatus]=useState(null)
     const [chart,setchart]=useState(true)
-     const navigate=useNavigate()
-     const userString = localStorage.getItem("loguser");
-     const user = userString ? JSON.parse(userString) : null;
-
-     const [Accesspage,setAccesspage]=useState(false)
-     const [loading,setloading]=useState(false)
+    const navigate=useNavigate()
+    const userString = localStorage.getItem("loguser");
+    const user = userString ? JSON.parse(userString) : null;
+    const [Accesspage,setAccesspage]=useState(false)
+    const [loading,setloading]=useState(false)
 
      useEffect(()=>{
       if(user){
@@ -48,6 +46,8 @@ export default function SupportTeamHomePage(){
         setStatus(getdata)
         setloading(true)
         
+}else{
+  console.log(await Data.json())
 }
 
         }
@@ -60,66 +60,36 @@ export default function SupportTeamHomePage(){
     },[Accesspage])
 
 
-      const changechart=()=>{
-        setchart((!chart))
-      }
 
-const linktoallticket=()=>{
-    console.log('navigate')
-    navigate('/SupportTeam-AllTickets')
-}
-
-const handlelinks=(pram)=>{
-  console.log(pram)
-  navigate(`/ticketfilter/${pram}`)
-
-}
 
     return Accesspage&&loading&&(
-        <section>
-            <LogNavbar page={user.power}/>
+        <section className={theme==='light'?'light':'dark'}>
+          
             <section className="content"> 
+           
             {Status&&
             <section className="viewticket" style={{minHeight:'85vh',backgroundColor:'inherit'}}>
+            <h3 style={{textAlign:'center'}}>Support User</h3>
             <section className="divbox" >
-            <div>
-                    <h4>Total Tickets</h4>
-                    <h4>{Status.Total}</h4>
-                    
-                </div>
-                <div  style={{backgroundColor:' rgba(255, 0, 0, 0.745)'}}>
-                    <h4>Pending Tickets</h4>
-                    <h5>{Status.Pending}</h5>
-                    
-                </div>
-                <div style={{backgroundColor:' rgba(30, 195, 44, 0.499)'}}>
-                    <h4>Solved </h4>
-                    <h4>{Status.Solved}</h4>
-                   
-                    </div> 
-                    <div style={{backgroundColor:'rgba(60, 30, 195, 0.499)'}}>
-                    <h4>Reopen</h4>
-                    <h4>{Status.reopen}</h4>
-                    
-                </div>
-               
-               
-                
-               
-
+                <Divs text='Total Tickets' data={Status.Total} bg=''/>
+                <Divs text='Solved  Tickets' data={Status.Solved} bg='green'/>
+                <Divs text='Pending Tickets'data={Status.Pending} bg='red'/>
+                <Divs text='On Waiting' data={Status.Waiting} bg='blue'/>
+                <Divs text='On Hold' data={Status.OnHold} bg='rgb(255, 128, 128)'/>
             </section >
           
             <section className="graph">
+
               <div style={{width:'600px',height:'400px'}}>
-              {chart?( <Barchart data={Status}/>):(<Piechart data={Status}/>)}
-              
+                 {chart?( <Barchart data={Status}/>):(<Piechart data={Status}/>)}
               </div>
+
           <div className="graphLinks" style={{width:'50%'}}>
-            <button style={{width:'200px'}} onClick={()=>(handlelinks('Pending'))}>View Pending tickets</button>
-            <button style={{width:'200px'}} onClick={()=>(handlelinks('Solved'))}>Solved Tickets</button>
-            <button style={{width:'200px'}} onClick={()=>(handlelinks('Total'))}>View All Tickets</button>
-            <button style={{width:'200px'}} onClick={linktoallticket}>Take New Tickets</button>
-            <button style={{width:'200px'}} onClick={changechart}>{chart?("Pie Chart"):("Bar Chart")}</button>
+              <Buttons linkto='Total' text='View My Assign Tickets' setchart={setchart} navigate={navigate}/> 
+              <Buttons linkto='Pending' text='View Pending tickets' setchart={setchart} navigate={navigate}/>
+              <Buttons linkto="Solved"  text='Solved Tickets' setchart={setchart} navigate={navigate}/>
+              <Buttons linkto='linktoallticket' text='Take New Tickets' setchart={setchart} navigate={navigate}/>
+              <Buttons linkto='changechart' text={chart?("Pie Chart"):("Bar Chart")} setchart={setchart} chart={chart}/>
           </div>
             </section>
            

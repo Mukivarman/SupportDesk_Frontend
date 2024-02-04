@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import SideBar from "../components/Sidebar";
 import LogNavbar from "../components/navbar";
-import {json, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { checkalreadyclint } from "../js/tools";
+import Input from "../components/Inputs";
+import '../assets/css/User.css'
 
 
 export default function NewTicket(){
@@ -12,9 +14,19 @@ export default function NewTicket(){
         console.log(user)
         const navigate=useNavigate();
         const [Accesspage,setAccesspage]=useState(false)
-        const [loading,setloading]=useState(false)
+        const [Msg,setMsg]=useState("")
+        const theme=localStorage.getItem('theme')
+        const [Inputs,setInputs]=useState({
+            date:"",
+            time:'',
+            subject:"",
+            message:"",
+            img:null,
+        
+        })
    
-        useEffect(()=>{
+        
+ useEffect(()=>{
          if(user){
             const thispage='User';
              checkalreadyclint(user,setAccesspage,navigate,thispage)
@@ -26,15 +38,6 @@ export default function NewTicket(){
 
       
 
-    const [Inputs,setInputs]=useState({
-        date:"",
-        time:'',
-        subject:"",
-        message:"",
-        img:null,
-    
-    })
-    const [Msg,setMsg]=useState("")
 
    const handleinput=(e)=>{
     setInputs({...Inputs,[e.target.name]:e.target.value})
@@ -70,12 +73,12 @@ export default function NewTicket(){
 
             navigate(`/ViewTicketDetails/${ID.ticketID}`)
         }else{
-            console.log("error")
+            const response=await senddata.json()
+            setMsg(response.msg)
         }
     }catch(e){
         console.error(e)
     }
-
 
     }
     else{
@@ -89,27 +92,71 @@ const handleimg=(e)=>{
 
 }
    
-    return Accesspage&&(
+const Label=(props)=>{
+return(<label>{props.text}</label>)
+}
+return Accesspage&&(
 
-   <section>
+   <section  className={theme==='light'?'light':'dark'}>
   <LogNavbar page={user.power}/>
    <section className="content"> 
-  
-   
-        <section className="newticket"> 
-           <h2 style={{textAlign:"center",margin:"5%", fontFamily:"serif"}}>Submit New Ticket</h2>
-        <form className="ticket" onSubmit={handlesubmit}>
-                <label>Problem Occured Date:</label><input type="date" name="date" value={Inputs.date} onChange={handleinput} required={true}></input>
-                <label>Problem Occured Time:</label><input type="time" name="time" value={Inputs.time} onChange={handleinput} required={true} ></input>
-                <label>subject :</label><input type="text" name="subject" value={Inputs.subject} onChange={handleinput} required={true}></input>
-                <label>Message :</label><textarea name="message" value={Inputs.message} onChange={handleinput} required={true}></textarea>
-               <label>Proof Image :</label><input type="file" name="img"  required={true} onChange={handleimg}  accept="image/*"></input>
-            <br/>
+    <section className="newticket"> 
+           <h2 className="new-ticket-head">
+               Submit New Ticket
+                   </h2>
+     <form className="ticket" onSubmit={handlesubmit}>
+        <Label text='Problem Occured Date:'/>
+            <Input  
+                type="date" 
+                name="date" 
+                value={Inputs.date} 
+                onchange={handleinput}
+                length="20" />
+
+        <Label text='Problem Occured Time :'/>
+            <Input
+                type="time"
+                name="time" 
+                value={Inputs.time}
+                onchange={handleinput} />
+
+        <Label text='subject :'/>
+            <Input  
+                type="text" 
+                name="subject" 
+                value={Inputs.subject}
+                onchange={handleinput} 
+                length='30'
+                
+                />
+
+        <Label text='Message :'/>
+            <textarea 
+                name="message" 
+                value={Inputs.message} 
+                onChange={handleinput} 
+                required={true}
+                maxLength={1000}/>
+                
+
+        <Label text='Proof Image :'/>
+      
+           <Input
+                type="file"
+                name="img" 
+                required={true}
+                onchange={handleimg}  
+                accept="image/*"/>
+          
             <p style={{color:"red"}}>{Msg}</p>
-            <button type="submit" style={{width:"200px",height:"30px",margin:"auto"}}>submit</button>
+
+            <button 
+               className="submit-newticket"
+                type="submit" 
+                >submit</button>
             
         </form>
-           </section>
+     </section>
         <SideBar/>
     </section>
     </section>)

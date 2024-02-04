@@ -8,6 +8,7 @@ import { checkalreadyclint } from "../js/tools";
 
 
 export default function AllSupportTeamList(props){
+    const theme=localStorage.getItem('theme')
     const {ticketid}=useParams()
 console.log(ticketid)
     const [List,seTList]=useState(null)
@@ -68,12 +69,12 @@ console.log(ticketid)
          if(assign.ok){
             navigate(`/ViewTicketDetails/${id}`)
          }else{
-            
+            console.log(await assign.json())
          }
     }
 
 return Accesspage&&loading&&(
-    <section>
+    <section className={theme==='light'?'light':'dark'}>
         <LogNavbar page={user.power}/>
     <section className="content">
     <section className="AllTickets" style={{width:'100%'}}>

@@ -6,11 +6,10 @@ import { useEffect } from "react";
 import { checkalreadyclint } from "../js/tools";
 export default function SupportTeam_AllTickets(){
   const navigate=useNavigate()
+  const theme=localStorage.getItem('theme')
     const [Data,setData]=useState(null)
-    const [taked,settaked]=useState(false)
     const userString = localStorage.getItem("loguser");
     const user = userString ? JSON.parse(userString) : null;
-
     const [Accesspage,setAccesspage]=useState(false)
     const [loading,setloading]=useState(false)
 
@@ -33,26 +32,25 @@ export default function SupportTeam_AllTickets(){
    
    
     useEffect(()=>{
-       
-       
         const fetchData = async () => {
           try {
              const getdata=await fetch('/api/GetAllTickets',{
              method:'Get',
              headers:{
                 'Content-Type': 'application/json',  
-                 
+                'authorization':`Bearer ${user.jwttoken}` 
             },
            
 
           })
           if(getdata.ok){
              const tickets=await getdata.json()
-             console.log(tickets)
+            
              setData(tickets);
              setloading(true)
 
           }else{
+            console.log(await getdata.json())
             setloading(false)
           }
            
@@ -68,23 +66,19 @@ export default function SupportTeam_AllTickets(){
       },[Accesspage])
 
      const confirm=(data)=>{
-         console.log('cliked')
          console.log(data._id)
          navigate(`/ViewTicketDetails/${data._id}`)
          
            
       }
     return Accesspage&&loading&&(
-      <section>
-      <LogNavbar page={user.power}/>
+      <section className={theme==='light'?'light':'dark'}>
+        <LogNavbar page={user.power}/>
         <section className="content">
-       
-        <section className="AllTickets" style={user.power !== 'User' ? { width: '100%' } : {}}>
-            {taked&&
-            <p></p>}
-            {!taked&&
+          <section className="AllTickets" style={user.power !== 'User' ? { width: '100%' } : {}}>
+           
         <div className="allticketsdetails">
-            <h2 style={{textAlign:"center",marginBottom:"5px"}}>My Tickets</h2>
+            <h2 style={{textAlign:"center",margin:"5px"}}>Take New Ticket</h2>
            <table>
                 <thead>
                     <tr>
@@ -107,15 +101,14 @@ export default function SupportTeam_AllTickets(){
                        <td className="subject">{data.Subject} </td>
                        <td className="other">{data.AssignedUser===null?('Not Assigned'):(data.AssignedUser.username)}</td>
                        <td className="other">{data.Status} </td>
-
-                     <td className="other">{data.AssignedUser===null?(<button onClick={()=>confirm(data)}>Take</button>):("Already Assign")}</td>
+                      <td className="other">{data.AssignedUser===null?(<button onClick={()=>confirm(data)}>Take</button>):("Already Assign")}</td>
                     </tr> ))}
                 </tbody>
             </table>
             {!loading&&<p style={{textAlign:'center', margin:'25%'}}>Content Is Loading....</p>}
-        </div>}
-            </section>
-        </section>
-        </section>
+          </div>
+         </section>
+       </section>
+    </section>
     )
 }

@@ -6,7 +6,7 @@ import EditProfile from "./EditebleSidebar";
 import LogNavbar from "../components/navbar";
 import { checkalreadyclint } from "../js/tools";
 import { useNavigate } from "react-router-dom";
-
+import Input from "../components/Inputs";
 
 
 
@@ -15,11 +15,17 @@ import { useNavigate } from "react-router-dom";
 export default function ProfileUpdate(){
         const navigate=useNavigate()
         const [img,setimg]=useState(null);
-        const [previewimg,setpreviewimg]=useState("uploadimg.png")
-        
+        const theme=localStorage.getItem('theme')
         const userString = localStorage.getItem("loguser");
         const user = userString ? JSON.parse(userString) : null;
-
+       console.log(user.empcode+user.dept)
+        const [inputs,setinputs]=useState({
+            department:user.dept,
+            EMPcode:user.empcode,
+        })
+        const [previewimg,setpreviewimg]=useState("uploadimg.png")
+        
+       
         const [Accesspage,setAccesspage]=useState(false)
         const [loading,setloading]=useState(false)
    
@@ -36,6 +42,10 @@ export default function ProfileUpdate(){
          }
        
    },[])
+
+    const changeinput=(e)=>{
+        setinputs({...inputs,[e.target.name]:e.target.value})
+    }
        
 
         const handlechange=async(e)=>
@@ -53,12 +63,13 @@ export default function ProfileUpdate(){
      
 
         const submitpic=async()=>{
-            if(img){
+            if(img&&inputs.EMPcode!==''&&inputs.department!==''){
                 try{
                 
 const formdata=new FormData();
                     formdata.append("img",img);
                     formdata.append("authuser",JSON.stringify(user))
+                    formdata.append('inputs',JSON.stringify(inputs))
 
             const uploadimg=    await fetch("/api/profilepic",{
                     method:"Post",
@@ -71,35 +82,60 @@ const formdata=new FormData();
                     const data=await uploadimg.json()
                     localStorage.setItem('profile_img','')
                     localStorage.setItem('profile_img',data.image)
-                    console.log(data.msg+data.image)
+                    localStorage.setItem('dept',JSON.stringify({
+                        dept:data.dept,
+                        empcode:data.empcode
+                    }))
+                    console.log(data)
                     navigate('/NewTicket')
                    
                 }
 
              } catch(e){
                 console.error(e)
-             }}
+             }}else{
+                console.log('input fields are empty')
+             }
         }
         const skippage=()=>{
             navigate('/NewTicket');
         }
 
+
+
     return Accesspage&&(
-    <section>
+    <section className={theme==='light'?'light':'dark'}>
           <LogNavbar page={user.power}/>
-        <section className="content" style={{color:"white",padding:"4%"}}>
+        <section className="content">
            <section className="main">
-        <section style={{display:"flex",flexDirection:"column",alignItems:"center"}}>
+        <section className="img-update-section">
       
-        <img src="welcome.png" style={{width:"300px",margin:"2%"}}/>
-            <h2>Hello User</h2>
-            <h4 style={{marginTop:"2%"}}>please Upload Profile Picture</h4>
-        
-            <img src={previewimg} width={180} height={130} style={{margin:"4%"}} />
+        <img src="welcome.png"  className="img-in-update-section"/>
+            <h2>Hello {user.user_name}</h2>
+        <Input
+            value={inputs.EMPcode}
+            type='text' 
+            name='EMPcode' 
+            css='in1' 
+            field='Employee Code' 
+            onchange={changeinput}/>
+        <Input 
+        value={inputs.department}
+            type='text' 
+            name='department' 
+            css='in1'
+            field='Department'
+            onchange={changeinput}/>
+        <img src={previewimg} width={180} height={130} style={{margin:"1%"}} />
            
-            <input type="file"  style={{width:"200px"}} onChange={handlechange} accept="image/*"></input>
-            <button type="submit" style={{margin:"5%",width:"200PX",backgroundColor:"blue"}} onClick={submitpic}>Upload Image</button>
-       <button style={{width:"100px" ,backgroundColor:'red'}} onClick={skippage}>Skip</button>
+            <input type="file" onChange={handlechange} accept="image/*"></input>
+
+            <button type="submit" 
+                className="upload-img-btn"  
+                   onClick={submitpic}>
+                      Upload Image</button>
+                       
+            <button className="skip" onClick={skippage}>Skip</button>
         </section>
 
         </section>

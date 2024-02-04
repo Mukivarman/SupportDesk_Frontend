@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 export default function LandingPage(){
     const navigate=useNavigate();
+    const theme=localStorage.getItem('theme')
 
     const gotologin=()=>{
         navigate('/Login')
@@ -10,13 +11,14 @@ export default function LandingPage(){
     }
 
     return(
+        <section className={theme==='light'?'light':'dark'}>
         <section className="content">
             <section className="box">
                 <section className="webdetails">
                     <div>
-                    <p style={{fontSize:'40px',color:'white',fontWeight:'bolder'}}>Welcome To Our Online HelpDesk</p>
-                    <p style={{fontSize:'20px',color:'white'}}>Unified service management platform for the Digital Enterprise</p>
-                    <button style={{width:"300px",margin:'3%'}} onClick={gotologin}>Get Start</button>
+                    <p className="home-big-para">Welcome To Our Online HelpDesk</p>
+                    <p  className='home-description'>Unified service management platform for the Digital Enterprise</p>
+                    <button className="home-start-btn"  onClick={gotologin}>Get Start</button>
                     </div>
                 </section>
                 <section>
@@ -25,6 +27,7 @@ export default function LandingPage(){
               
             </section>
    
+        </section>
         </section>
     )
 }

@@ -1,30 +1,27 @@
 import React, { useEffect, useState } from "react";
 import LogNavbar from "../components/navbar";
-import { Navigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import Chatbox from "../components/Chat";
 import { checkalreadyclint } from "../js/tools";
 
 export default function ViewTicket(){
-    
-   const [Data,setData]=useState();
+    const theme=localStorage.getItem('theme')
+   const [Data,setData]=useState(null);
    const {ticketid}=useParams()
    const [Fullimg,setFullimg]=useState(false)
    const [Statusoption,setStatusoption]=useState('Select')
    const [UpdateRes,setUpdateRes]=useState(-1)
-
    const navigate=useNavigate()
-
    const userString = localStorage.getItem("loguser");
-  const user = userString ? JSON.parse(userString) : null;
-
+   const [user,setuser] = useState( JSON.parse(userString))
    const [takederror,settakeerror]=useState('')
-  const [Accesspage,setAccesspage]=useState(false)
-  const [loading,setloading]=useState(false)
+   const [Accesspage,setAccesspage]=useState(false)
+   const [loading,setloading]=useState(false)
+   const [Enablechat,setEnablechat]=useState(false)
 
   useEffect(()=>{
  
-      
-
    if(user){
     const thispage=user.power
        checkalreadyclint(user,setAccesspage,navigate,thispage)
@@ -39,13 +36,17 @@ export default function ViewTicket(){
     useEffect(() => {
         
         if(Accesspage){
-        fetchdata();}
-    }, [Accesspage]);
+            if(Data===null){
+                fetchdata()
+            }
+       }
+    }, [Accesspage,ticketid]);
 
     
     const fetchdata = async () => {
             
         try {
+            console.log('getdata')
             const getdata = await fetch(`/api/GetOneTicket/${ticketid}`, {
                 method: 'Get',
                 headers: {
@@ -62,6 +63,7 @@ export default function ViewTicket(){
             } 
             else{
                 console.log(await getdata.json())
+
             }
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -79,7 +81,7 @@ export default function ViewTicket(){
             status:Statusoption,
             ticketid:id
         }
-if(setStatusoption!=='Select'){
+     if(setStatusoption!=='Select'){
             const fetching=await fetch('/api/updateTicket',{
                 method:'Post',
                 headers:{
@@ -112,7 +114,8 @@ if(setStatusoption!=='Select'){
             body:JSON.stringify({Ticketid:ticketid})
         })
         if(taked.ok){
-            navigate(`/ViewTicketDetails/${ticketid}`)
+            console.log(await taked.json())
+          window.location.reload()
         }
         else{
             settakeerror(true)
@@ -124,54 +127,90 @@ if(setStatusoption!=='Select'){
   
     return Accesspage&&loading&&(
         
-        <section>
+        <section className={theme==='light'?'light':'dark'}>
         
               <LogNavbar page={user.power}/>
               <section  className="content">
-              {!loading&&<p style={{textAlign:'center',margin:'auto',color:'white'}}>content is loading...</p>}
+              {!loading&&  <p 
+              style={{textAlign:'center',margin:'auto',color:'white'}}
+              >content is loading...</p>}
 
          {Data&&(
-        <section className="viewticket">
-            <section >
-            
+           <section className="viewticket">
+             <section >
                 <h2 className="viewsubject">Created Ticket</h2>
-                <div style={{display:'flex'}}>
-                <div className="viewticketfield">
-              <div style={{display:'flex'}}>  <h3 className="field">Ticket Id :</h3><h3 className="fielddata">{Data._id}</h3></div>
-               <div style={{display:'flex'}}><h3 className="field">Occured Date : </h3><h3 className="fielddata">{ new Date(Data.OccuredDate).toLocaleDateString()+"-"+Data.OccuredTime}</h3></div> 
-              <div style={{display:'flex'}}> <h3 className="field">Subject:</h3><h3 className="fielddata"> {Data.Subject}t</h3></div> 
-               <div><h3 className="field">Message:</h3> <h3 className="textarea">{Data.Message} </h3>
-               </div  > 
-                </div>
+            <div style={{display:'flex'}}>
+             <div className="viewticketfield">
+                    <div style={{display:'flex'}}> 
+                        <h3 className="field">Ticket Id :</h3>
+                        <h3 className="fielddata">{Data._id}</h3>
+                    </div>
+                    <div style={{display:'flex'}}>
+                        <h3 className="field">Occured Date : </h3>
+                        <h3 className="fielddata">
+                        { new Date(Data.OccuredDate).toLocaleDateString()+"-"+Data.OccuredTime}</h3>
+                    </div> 
+                   <div style={{display:'flex'}}>
+                        <h3 className="field">Subject:</h3>
+                        <h3 className="fielddata"> {Data.Subject}t</h3>
+                    </div> 
+                  <div>
+                        <h3 className="field">Message:</h3>
+                      <h3 className="textarea">{Data.Message} </h3>
+                  </div  > 
+
+
+
+             </div>
                 <div style={{width:'50%' ,display:'flex',flexDirection:'column',justifyContent:'center',padding:"2%"}}>
-                    <img style={{width:'60%',height:"100%",maxHeight:"50vh"}} src={`data:image/jpeg;base64,${Data.Screenshots}`} onClick={fullscreenimg}></img>
-                    <div style={{display:'flex'}}>  <h3 className="field">Assigned Person:</h3><h3 className="fielddata">
-                                                {Data.AssignedUser===null?(user.power==="SupportTeam"?(<div><button onClick={()=>(taketicket(Data._id,user))}>Take</button>{takederror&&<p style={{color:'red'}}>Error</p>}</div>):('Waiting To Assign')):(Data.AssignedUser.username)}</h3>
-                                                </div>
-                    <div style={{display:'flex'}}>  <h3 className="field">Opened :</h3><h3 className="fielddata"> {(Data.Opened)?"Opened":"Ticket is not Open"}</h3></div>
+                  <a href="#fullimg"> <img 
+                        style={{width:'100%',height:"100%",maxHeight:"50vh"}} 
+                        src={`data:image/jpeg;base64,${Data.Screenshots}`}
+                        onClick={fullscreenimg}>
+                    </img>
+                    </a> 
+                 <div style={{display:'flex'}}>  
+                        <h3 className="field">Assigned Person:</h3>
+                        <h3 className="fielddata">
+                         {Data.AssignedUser===null?
+                                    (user.power==="SupportTeam"?
+                                       (<div><button onClick={()=>(taketicket(Data._id,user))}>Take</button>{takederror&&<p style={{color:'red'}}>Error</p>}</div>)
+                                    :('Waiting To Assign')):(Data.AssignedUser.username)}</h3>
+                 </div>
+                 <div style={{display:'flex'}}> 
+                         <h3 className="field">Opened :</h3>
+                         <h3 className="fielddata"> 
+                         {(Data.Opened)?"Opened":"Ticket is not Open"}</h3></div>
                 
-                 <div style={{display:'flex'}}>  <h3 className="field">Status :</h3>
-                
-                  {user.power==='SupportTeam'&&(Data.AssignedUser)!==null&&(Data.AssignedUser.username)===user.user_name?
+                 <div style={{display:'flex'}}> 
+                         <h3 className="field">Status :</h3>
+                        {user.power==='SupportTeam'&&(Data.AssignedUser)!==null&&(Data.AssignedUser.username)===user.user_name?
                                              (<select value={Statusoption} onChange={(e)=>(setStatusoption(e.target.value))} style={{width:'150px',height:'30px',backgroundColor:'inherit',color:'white'}}>
                                                   <option style={{backgroundColor:'black'}}>Select</option>
+                                                  <option style={{backgroundColor:'black'}}>OnHold</option>
                                                   <option style={{backgroundColor:'black'}}>Pending</option>
-                                                    <option style={{backgroundColor:'black'}}>Solved</option>
+                                                  <option style={{backgroundColor:'black'}}>Solved</option>
                                                 </select>)
                                                 :( <h3 className="fielddata">{Data.Status}</h3> )}
                   </div>
                   
-                   {user.power==='Admin'&&Data.AssignedUser===null&&<button style={{width:'50%'}} onClick={()=>(navigate(`/allsupportteam/${Data._id}`))}>Assign</button>}
+                     {user.power==='Admin'&&Data.AssignedUser===null&&<button style={{width:'50%'}} onClick={()=>(navigate(`/allsupportteam/${Data._id}`))}>Assign</button>}
                <div style={{display:'flex'}}>
-                <h3> {user.power==='SupportTeam'&& (Data.AssignedUser)!==null&&(Data.AssignedUser.username)===user.user_name&&<button style={{margin:'0px',width:'150px'}} onClick={()=>(updateticket(Data._id))}> Update</button>} </h3>
+                     <h3> {user.power==='SupportTeam'&& (Data.AssignedUser)!==null&&(Data.AssignedUser.username)===user.user_name&&<button style={{margin:'0px',width:'150px'}} onClick={()=>(updateticket(Data._id))}> Update</button>} </h3>
                 {UpdateRes===1&&<p>Updated</p>}{UpdateRes===0&&(<p>Error</p>)}
                 </div>
+                {(Data.AssignedUser)!==null&&Enablechat===false&&(<button onClick={()=>(setEnablechat(true))}>Chat</button>)}
                 </div>
                 </div>
+                <div>
+                {Enablechat&&(<Chatbox id={ticketid} user_name={user.user_name} jwttoken={user.jwttoken}  power={user.power} />)}
+                </div>
+              
             </section>
-              {Fullimg&&(
-                <img className="viewticketimgfull" src={`data:image/jpeg;base64,${Data.Screenshots}`} onClick={fullscreenimg}></img>
-            )}
+            <section id="fullimg"> {Fullimg&&(
+                <img  className="viewticketimgfull" src={`data:image/jpeg;base64,${Data.Screenshots}`} onClick={fullscreenimg}></img>
+            )}</section>
+             
              <button style={{width:"100px",margin:'0px'}} onClick={()=>{
                 navigate('/')
              }}>Go Home</button>

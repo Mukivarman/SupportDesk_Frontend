@@ -12,31 +12,40 @@ export default function Piechart(props) {
 
  
 const data = {
-  labels: ['Pending', 'Solved', 'Unassigned'],
+  labels: [ 'Solved','Pending','Waiting','ON Hold','Unassigned'],
   datasets: [
     {
-      data:[(props.data).Pending,(props.data).Solved,(props.data).Unassigned],
+      data:[(props.data).Solved,
+        (props.data).Pending,
+        (props.data).Waiting,
+        (props.data).OnHold,
+        (props.data).Unassigned],
+
       backgroundColor: [
-        
-        'rgba(255, 0, 0, 0.745)',
-        ' rgba(30, 195, 44, 0.499)',
-        'rgba(60, 30, 195, 0.499)',
-        
-        
+        'green',
+        'red',
+        'blue',
+        'rgb(255, 128, 128)',
+        'rgb(17, 166, 166)'
       ],
       borderColor: [
         'black',
         'black',
         'black',
+        'black',
+        'black',
+        'black'
        
       ],
       borderWidth: 3,
     },
   ],
 };
+
+
   return(
     <div style={{width:'100%',height:'45vh'}}>
-<Pie data={data} />
+<Pie data={data}  />
     </div>
   ) 
 }

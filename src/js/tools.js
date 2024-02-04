@@ -32,13 +32,15 @@ const checkalreadyclint=async(user,setAccesspage,navigate,thispage)=>{
     if(auth.ok){
         const {loginnewuser}=await auth.json()
                        
-        console.log(loginnewuser)
+       
         
         if(thispage==='User'){
             if(loginnewuser.power==='User'){
                 setAccesspage(true)
             }   
             else{
+                localStorage.setItem('loguser','')
+                localStorage.setItem('profile_img','')
                 navigate('/')
             }
         }
@@ -46,6 +48,8 @@ const checkalreadyclint=async(user,setAccesspage,navigate,thispage)=>{
             if(loginnewuser.power==='Admin'){
                 setAccesspage(true)
             }    else{
+                localStorage.setItem('loguser','')
+                localStorage.setItem('profile_img','')
                 navigate('/')
             }
         }
@@ -53,6 +57,8 @@ const checkalreadyclint=async(user,setAccesspage,navigate,thispage)=>{
             if(loginnewuser.power==='SupportTeam'){
                 setAccesspage(true)
             }  else{
+                localStorage.setItem('loguser','')
+                localStorage.setItem('profile_img','')
                 navigate('/')
             }
         }       

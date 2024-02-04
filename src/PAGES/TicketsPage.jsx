@@ -8,7 +8,7 @@ import { checkalreadyclint } from "../js/tools";
 export default function ShowAllTickets(){
       const navigate=useNavigate()
    const [Data,setData]=useState(null)
-
+   const theme=localStorage.getItem('theme')
       const userString = localStorage.getItem("loguser");
       const user = userString ? JSON.parse(userString) : null;
 
@@ -67,7 +67,7 @@ export default function ShowAllTickets(){
 
 
     return Accesspage&&loading&&(
-      <section>
+      <section className={theme==='light'?'light':'dark'}>
       <LogNavbar page='User'/>
         <section className="content">
        

@@ -7,7 +7,7 @@ import Header from './components/Headers'
 import SideBar from './components/Sidebar'
 import Register from './PAGES/Register'
 import ProfileUpdate from './PAGES/ProfileUpdate'
-import UserHomePage from './PAGES/HomePage'
+
 import ShowAllTickets from './PAGES/TicketsPage'
 
 import Login from './PAGES/Login'
@@ -16,21 +16,26 @@ import ViewTicket from './PAGES/Viewticket'
 import LandingPage from './PAGES/LandingPage'
 import Adminpage from './PAGES/Admin'
 import SupportTeam_AllTickets from './PAGES/TekeTickets'
-import AdminShowAllTickets from './PAGES/admintable'
+import AdminShowAllTickets from './PAGES/AdminshowallTickets'
 import AllSupportTeamList from './components/SupportTeamList'
 import TicketFilterpge from './components/Ticketfiters'
 import SupportTeamHomePage from './PAGES/SupportHome'
+import Chatbox from './components/Chat'
+import AllUsers from './PAGES/AllUsers'
+import AllUsersFilter from './components/AllUsersfilter'
+import ChangeTheme from './components/ThemeChange'
+
 
 function App() {
+  
+
 
 
   return (
     <section>
-
-    <Header/>
+    <LogNavbar />
       <Routes>
-      
-        <Route path='/' element={<LandingPage/>}/>
+     
         <Route path='/UserRegister' element={<Register/>}/>
         <Route path='/Login' element={<Login/>}/>
         <Route path='/profileupdate' element={<ProfileUpdate/>}/>
@@ -38,16 +43,20 @@ function App() {
         <Route path='/viewTickets' element={<ShowAllTickets/>}/>
         <Route path='/ViewTicketDetails/:ticketid' element={<ViewTicket/>}/>
         <Route path='/AdminPage' element={<Adminpage/>}/>
+        <Route path='/AllUsers' element={<AllUsers/>}>
+            <Route path='Filterby/:filter' element={<AllUsersFilter/>}/>
+        </Route>
         
         <Route path='/SupportTeam-AllTickets' element={<SupportTeam_AllTickets/>}/>
         <Route path='/admintable'element={<AdminShowAllTickets/>}/>
         <Route path='/allsupportteam/:ticketid' element={<AllSupportTeamList/>}/>
         <Route path='/ticketfilter/:filter' element={<TicketFilterpge/>}/>
-      
+        <Route path='/chat' element={<Chatbox/>}/>
         <Route path='/supporttmhomepage' element={<SupportTeamHomePage/>}/>
+        
       </Routes>
      
- 
+    <ChangeTheme />
     
     
    

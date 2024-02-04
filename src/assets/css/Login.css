@@ -1,0 +1,46 @@
+
+.head-login{
+    margin: 30px;
+    padding: 2%;
+    color: aqua;
+   
+}
+.in1{
+    width: 90%;
+    height: 40px;
+    border-radius: .3em;
+    border: 0px;
+    padding: 1%;
+    margin: 2%;
+}
+.signup{
+    padding: 2%;
+    margin-top: 3%;
+    }
+.img-update-section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+.img-in-update-section{
+    width: 300px;
+    margin: 2%;
+
+}
+.img-in-update-section h4{
+    margin-top: 2%;
+}
+.img-in-update-section input{
+    width: 200px;
+}
+.upload-img-btn{
+    margin: 5%;
+    width: 200px;
+
+}
+.skip{
+    width: 150px;
+    background-color: red;
+    
+}

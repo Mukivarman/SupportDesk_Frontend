@@ -1,0 +1,23 @@
+
+
+.new-ticket-head{
+    text-align: center;
+    padding: 3%;
+    font-family: serif;
+
+}
+.submit-newticket{
+    max-width: 200px;
+    height: 30px;
+    margin: auto;
+}
+.newticket{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    color: white;
+    margin: auto;
+    width: 50%;
+    background-color: rgb(7, 7, 7);
+    margin-top: 2%;
+  }

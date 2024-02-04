@@ -1,0 +1,113 @@
+.dialogbox{
+
+    background-color: rgb(31, 29, 29);
+    width: 600px;
+    height: 150px;
+    padding: 1%;
+    border: 1px solid white;
+    border-radius: .5em;
+   
+}
+.divboxcontainer{
+    width: 100%;
+    height:100%;
+    backdrop-filter: blur(10px);
+    background-attachment: fixed;
+    position: fixed;
+    background-position: center;
+    background-size: cover;
+    top: 0px;
+    left: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    
+    
+}
+.dialogbox h3{
+    margin-bottom: 2%;
+}
+.dialogbox h4{
+    margin-bottom: 6%;
+}
+.confirmdiv{
+    display: flex;
+    justify-content: space-around;
+}
+.confirmdiv p{
+    border-radius: .3em;
+   color: black;
+    width: 150px;
+    background-color: rgba(0, 255, 255, 0.358);
+    text-align: center;
+    padding: 8px;
+    font-weight: bolder;
+    cursor: pointer;
+
+}
+.sucessimg{
+    background-image: url(../images/icons/sucess.png);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100px;
+    height: 100px;
+    padding: 3px;
+  
+
+}
+.Success{
+    width: 400px;
+    height: 300px;
+    padding: 1%;
+    border-radius: .5em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(45, 139, 30, 0.932);
+}
+
+.ok{
+    border-radius: .3em;
+    color: black;
+    width: 150px;
+    background-color: rgba(0, 255, 255, 0.358);
+    text-align: center;
+    padding: 8px;
+    font-weight: bolder;
+    cursor: pointer;
+    margin-top: 3%;
+
+}
+.msg{
+    height: 80px;
+    width: 100%;
+   
+    margin-bottom:2% ;
+}
+.msg p{
+    color: white;
+    font-weight: bolder;
+    padding: 3%;
+    
+}
+.failed{
+    width: 400px;
+    height: 300px;
+    padding: 1%;
+    border-radius: .5em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color:  rgba(134, 36, 36, 0.601);
+}
+.failedimg{
+    background-image: url(../images/icons/warning.png);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100px;
+    height: 100px;
+    padding: 3px;
+}

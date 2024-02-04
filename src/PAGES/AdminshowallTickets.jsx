@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-import SideBar from "../components/Sidebar";
 import LogNavbar from "../components/navbar";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { checkalreadyclint } from "../js/tools";
 
 export default function AdminShowAllTickets(){
+     const theme=localStorage.getItem('theme')
       const navigate=useNavigate()
-     const [Data,setData]=useState(null)
-
+      const [Data,setData]=useState(null)
       const userString = localStorage.getItem("loguser");
       const user = userString ? JSON.parse(userString) : null;
       const [Accesspage,setAccesspage]=useState(false)
@@ -34,7 +33,7 @@ export default function AdminShowAllTickets(){
              method:'Get',
              headers:{
                 'Content-Type': 'application/json',  
-                  'authorization':`Bearer ${user.jwttoken}`
+               'authorization':`Bearer ${user.jwttoken}`
             },
            
 
@@ -59,11 +58,10 @@ export default function AdminShowAllTickets(){
 
 
     return Accesspage&&loading&&(
-      <section>
+      <section className={theme==='light'?'light':'dark'}>
    <LogNavbar page={user.power}/>
         <section className="content">
-       
-            <section className="AllTickets" style={{width:'80%'}}>
+        <section className="AllTickets" style={{width:'80%'}}>
         <div className="allticketsdetails">
             <h2 style={{textAlign:"center",marginBottom:"5px"}}>All Tickets</h2>
            <table>
@@ -71,7 +69,7 @@ export default function AdminShowAllTickets(){
                     <tr>
                         <th>S.No</th>
                         <th>ID</th>
-                        <th>Date</th>
+                        <th>Date Time</th>
                         <th>Subject</th>
                         <th>Assign</th>
                         <th>Status</th>
@@ -84,7 +82,7 @@ export default function AdminShowAllTickets(){
                    <tr key={data._id}>
                        <td className="sno">{index}</td>
                        <td className="ticketid">{data._id}</td>
-                       <td className="ticketdate">{data. OccuredDate}</td>
+                       <td className="ticketdate"> { new Date(data.OccuredDate).toLocaleDateString()+" ~ "+data.OccuredTime}</td>
                        <td className="subject">{data.Subject} </td>
                        <td className="other">{data.AssignedUser===null?('Not Assigned'):(data.AssignedUser.username)}</td>
                        <td className="other">{data.Status} </td>

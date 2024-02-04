@@ -8,9 +8,17 @@ export default function Barchart(prop){
    
     const [graph,setgraph]=useState({
              datasets:[{
-                label:'',
+               
                  data:prop.data,
-                 backgroundColor: ["orange","red", "green","blue"],
+                 backgroundColor: [
+                   ' rgba(255, 128, 0, 0.795)',
+                   ' rgba(30, 195, 44, 0.499)',
+                   'rgba(255, 0, 0, 0.745)',
+                   'blue',
+                   'rgb(255, 128, 128)',
+                 'rgb(17, 166, 166)',
+               
+                ],
              }]
     })
           
