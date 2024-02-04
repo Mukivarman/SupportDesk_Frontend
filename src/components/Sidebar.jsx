@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import '../assets/css/SideBar.css'
 import Details from "./SidebarDetails";
 import Notification from "./Notification";
 
