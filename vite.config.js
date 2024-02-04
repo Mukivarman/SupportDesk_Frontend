@@ -6,7 +6,7 @@ export default defineConfig({
   server:{
     proxy:{
       "/api/":{
-        target:"https://ill-gray-fly-tux.cyclic.app/",
+        target:"https://supportdesk-hm1g.onrender.com",
         changeOrigin:true
       }
     }
