@@ -31,7 +31,11 @@ export default function Login(){
                     }
 
                 })
+                 if (!auth.ok) {
+      throw new Error('Network response was not ok');
+    }
                 if(auth.ok){
+                    
                     const {loginnewuser}=await auth.json()
                                    
                     console.log(loginnewuser)
