@@ -5,7 +5,7 @@ const [Data,setData]=useState(null)
 
     const getdata=async()=>{
 
-        const req=await fetch('/api/GetUserStatus',{
+        const req=await fetch('https://supportdesk-hm1g.onrender.com/api/GetUserStatus',{
             method:'Get',
             headers:{
                 'Content-Type': 'application/json',  

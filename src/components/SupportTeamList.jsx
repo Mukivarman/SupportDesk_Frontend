@@ -32,7 +32,7 @@ console.log(ticketid)
 
     useEffect(()=>{
         const getteam=async()=>{
-        const fetchData=await fetch('/api/supportteamlist',{
+        const fetchData=await fetch('https://supportdesk-hm1g.onrender.com/api/supportteamlist',{
             method:'Get',
             headers:{
                 'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ console.log(ticketid)
                 supportteamid:list._id,
             }
 
-         const assign=await fetch('/api/Assign',{
+         const assign=await fetch('https://supportdesk-hm1g.onrender.com/api/Assign',{
             method:'post',
             headers:{
                 'Content-Type':'Application/json',

@@ -33,7 +33,7 @@ export default function SupportTeamHomePage(){
 
     useEffect(()=>{
         const fetching=async()=>{
-          const Data=  await fetch('/api/SupportTeamMemberHomePage',{
+          const Data=  await fetch('https://supportdesk-hm1g.onrender.com/api/SupportTeamMemberHomePage',{
             method:'Get',
             headers:{
                 'Content-Type': 'application/json',  

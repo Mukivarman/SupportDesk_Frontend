@@ -47,7 +47,7 @@ export default function ViewTicket(){
             
         try {
             console.log('getdata')
-            const getdata = await fetch(`/api/GetOneTicket/${ticketid}`, {
+            const getdata = await fetch(`https://supportdesk-hm1g.onrender.com/api/GetOneTicket/${ticketid}`, {
                 method: 'Get',
                 headers: {
                     'Content-Type': 'application/json',
@@ -82,7 +82,7 @@ export default function ViewTicket(){
             ticketid:id
         }
      if(setStatusoption!=='Select'){
-            const fetching=await fetch('/api/updateTicket',{
+            const fetching=await fetch('https://supportdesk-hm1g.onrender.com/api/updateTicket',{
                 method:'Post',
                 headers:{
                     'Content-Type':'application/json',
@@ -105,7 +105,7 @@ export default function ViewTicket(){
     }
     const taketicket=async(ticketid)=>{
        console.log(ticketid)
-        const  taked=await fetch('/api/taketickets',{
+        const  taked=await fetch('https://supportdesk-hm1g.onrender.com/api/taketickets',{
             method:'Post',
             headers:{
                 'Content-Type': 'application/json',

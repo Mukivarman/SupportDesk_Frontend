@@ -23,7 +23,7 @@ export default function Login(){
     const user = userString ? JSON.parse(userString) : null;
     useEffect(()=>{
             const checkalreadyclint=async()=>{
-                const auth=await fetch('/api/Alreadylogin',{
+                const auth=await fetch('https://supportdesk-hm1g.onrender.com/api/Alreadylogin',{
                     method:'Get',
                     headers:{
                         'Content-Type':'Appliction/json',

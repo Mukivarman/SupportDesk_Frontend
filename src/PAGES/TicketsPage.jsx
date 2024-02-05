@@ -35,7 +35,7 @@ export default function ShowAllTickets(){
       useEffect(()=>{
          
         const fetchData = async () => {
-          try { const getdata=await fetch('/api/GetTicketByUSer-All',{
+          try { const getdata=await fetch('https://supportdesk-hm1g.onrender.com/api/GetTicketByUSer-All',{
              method:'Get',
              headers:{
                 'Content-Type': 'application/json',  

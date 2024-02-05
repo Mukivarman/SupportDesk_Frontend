@@ -46,7 +46,7 @@ export default function UserDetail(props){
 
   const GetData=async()=>{
 
-    const  res =await fetch(`/api/GetAllTicketsLISTby/${data._id}/${data.power}`,
+    const  res =await fetch(`https://supportdesk-hm1g.onrender.com/api/GetAllTicketsLISTby/${data._id}/${data.power}`,
     {
         method:'Get',
         headers:{
@@ -70,7 +70,7 @@ useEffect(()=>{
 
 const deleteuser= async()=>{
     console.log('clicked')
-    const req=await fetch(`/api/DeleteUser/${data._id}/${data.power}`,{
+    const req=await fetch(`https://supportdesk-hm1g.onrender.com/api/DeleteUser/${data._id}/${data.power}`,{
         method:'Delete',
         headers:{
             'Content-Type': 'application/json',  

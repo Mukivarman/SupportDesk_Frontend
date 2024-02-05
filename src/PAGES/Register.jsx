@@ -68,7 +68,7 @@ export default function Register(){
                       try{
                         if(registeruser==='user'){
                            
-                                const req=  await fetch('/api/Register',{
+                                const req=  await fetch('https://supportdesk-hm1g.onrender.com/api/Register',{
                                       method:'Post',
                                       headers:{
                                           'Content-Type': 'application/json'
@@ -88,7 +88,7 @@ export default function Register(){
                                 }
                                 else if(registeruser==='Admin'&&option!=='select'){
                                     console.log(option)
-                                    const req=  await fetch(`/api/Add/${option}`,{
+                                    const req=  await fetch(`https://supportdesk-hm1g.onrender.com/api/Add/${option}`,{
                                         method:'Post',
                                         headers:{
                                             'Content-Type': 'application/json',
@@ -146,7 +146,7 @@ const SentOtp=async(e)=>{
    
     if(inputs.email!==''&&!checkspace(inputs.email)){
        setloading(true)
-        const sending=await fetch('/api/otpsent',{
+        const sending=await fetch('https://supportdesk-hm1g.onrender.com/api/otpsent',{
             method:'Post',
             headers:{
                 'Content-Type': 'application/json'

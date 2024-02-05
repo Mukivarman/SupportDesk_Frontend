@@ -46,13 +46,13 @@ export default function TicketFilterPage() {
     console.log("2 render");
     if (filter) {
       if (user.power === "Admin") {
-        const links = `/api/filters/${filter}`;
+        const links = `https://supportdesk-hm1g.onrender.com/api/filters/${filter}`;
         fetchData(links);
       } else if (user.power === "SupportTeam") {
-        const links = `/api/SupportTeamclintdetails/${filter}`;
+        const links = `https://supportdesk-hm1g.onrender.com/api/SupportTeamclintdetails/${filter}`;
         fetchData(links);
       } else if (user.power === "User") {
-        const links = `/api/userfilters/${filter}`;
+        const links = `https://supportdesk-hm1g.onrender.com/api/userfilters/${filter}`;
         fetchData(links);
       }
     }

@@ -8,7 +8,7 @@ export default function Notification(props){
 
         const getdata=async()=>{
 
-            const req=await fetch('/api/getnotification',{
+            const req=await fetch('https://supportdesk-hm1g.onrender.com/api/getnotification',{
                 method:'Get',
                 headers:{
                     'Content-Type': 'application/json',  
@@ -31,7 +31,7 @@ export default function Notification(props){
       
     },[])
     const handlenavigate=async(li)=>{
-        await fetch(`/api/deletenotification/${li._id}`,
+        await fetch(`https://supportdesk-hm1g.onrender.com/api/deletenotification/${li._id}`,
         {
             method:'Get',
             headers:{

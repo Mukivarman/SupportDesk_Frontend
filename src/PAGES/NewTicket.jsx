@@ -61,7 +61,7 @@ export default function NewTicket(){
             formdata.append('authuser',JSON.stringify(user));
             formdata.append('ticketdetails',JSON.stringify(ticket));
 
-      const senddata=  await fetch ("/api/NewTicket",{
+      const senddata=  await fetch ("https://supportdesk-hm1g.onrender.com/api/NewTicket",{
             method:"Post",
             headers:{
                 'authorization':`Bearer ${user.jwttoken}`

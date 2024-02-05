@@ -21,7 +21,7 @@ const checkpassword=(word)=>{
 }
 
 const checkalreadyclint=async(user,setAccesspage,navigate,thispage)=>{
-    const auth=await fetch('/api/Alreadylogin',{
+    const auth=await fetch('https://supportdesk-hm1g.onrender.com/api/Alreadylogin',{
         method:'Get',
         headers:{
             'Content-Type':'Appliction/json',

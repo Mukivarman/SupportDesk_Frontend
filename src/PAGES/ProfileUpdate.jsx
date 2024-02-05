@@ -71,7 +71,7 @@ const formdata=new FormData();
                     formdata.append("authuser",JSON.stringify(user))
                     formdata.append('inputs',JSON.stringify(inputs))
 
-            const uploadimg=    await fetch("/api/profilepic",{
+            const uploadimg=    await fetch("https://supportdesk-hm1g.onrender.com/api/profilepic",{
                     method:"Post",
                    headers:{
                     'authorization':`Bearer ${user.jwttoken}`

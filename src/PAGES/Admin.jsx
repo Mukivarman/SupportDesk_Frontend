@@ -37,7 +37,7 @@ export default function Adminpage(){
 
     useEffect(()=>{
         const fetching=async()=>{
-          const Data=  await fetch('/api/status',{
+          const Data=  await fetch('https://supportdesk-hm1g.onrender.com/api/status',{
             method:'Get',
             headers:{
                 'Content-Type': 'application/json',  
