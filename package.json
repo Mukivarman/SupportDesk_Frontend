@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "proxy":"https://supportdesk-hm1g.onrender.com/"
+  "proxy":"https://supportdesk-hm1g.onrender.com/",
   "scripts": {
     "start": "vite",
     "build": "vite build",
