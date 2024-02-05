@@ -35,7 +35,7 @@ export default function Register(){
     const [registeruser,setregisteruser]=useState('user') 
 
             useEffect(()=>{
-                if(user.power==='Admin'){
+                if(user&&user.power==='Admin'){
                     setregisteruser(user.power)
                 }
 

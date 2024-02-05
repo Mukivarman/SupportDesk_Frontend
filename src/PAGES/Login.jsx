@@ -31,7 +31,11 @@ export default function Login(){
                     }
 
                 })
+                 if (!auth.ok) {
+      throw new Error('Network response was not ok');
+    }
                 if(auth.ok){
+                    
                     const {loginnewuser}=await auth.json()
                                    
                     console.log(loginnewuser)
@@ -87,9 +91,9 @@ export default function Login(){
         if(inputs.log_detail!=""&&inputs.userPassword!=""){
             if(!checkspace(inputs.log_detail)&&!checkspace(inputs.userPassword)){
                 setmsg("")
-                try{
+               
                     localStorage.setItem("loguser",null);
-                          const req=  await fetch("/api/Login",{
+                          const req=  await fetch("https://supportdesk-hm1g.onrender.com/api/Login",{
                                 method:'Post',
                                 headers:{
                                     'Content-Type': 'application/json'
@@ -132,9 +136,7 @@ export default function Login(){
 
 
 
-            }catch(e){
-console.log(e)
-            }
+        
             
         }else{
                 setmsg("Username/Email or password contain Space")
