@@ -41,7 +41,7 @@ export default function AllUsersFilter(){
 
     const fetchData = async () => {
        
-      try { const getdata=await fetch(`/api/AllUsersByAdmin/${filter}`,{
+      try { const getdata=await fetch(`https://supportdesk-hm1g.onrender.com/api/AllUsersByAdmin/${filter}`,{
          method:'Get',
          headers:{
             'Content-Type': 'application/json',  
