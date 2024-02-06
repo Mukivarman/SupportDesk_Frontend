@@ -14,6 +14,7 @@ import Update from '../assets/images/icons/resume.png'
 import Admins from '../assets/images/icons/pie-chart.png'
 import UnAssigned from '../assets/images/icons/new.png'
 import Take from '../assets/images/icons/assign.png'
+import Logouts from '../assets/images/icons/logout.png'
 
 
  function LogNavbar(props){
@@ -223,7 +224,7 @@ const List=(props)=>{
                
             }
     
-          {(user)&&<li onClick={logout} className="logout" ><img src="../src/assets/images/icons/logout.png"  width={22}/>Logout </li>}  
+          {(user)&&<li onClick={logout} className="logout" ><img src={Logouts} width={22}/>Logout </li>}  
          
         
         </ul>
