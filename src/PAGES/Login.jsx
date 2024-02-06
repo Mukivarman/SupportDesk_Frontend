@@ -6,6 +6,7 @@ import Input from "../components/Inputs";
 import LogNavbar from "../components/navbar";
 import '../assets/css/Login.css'
 import {Failed} from "../components/Responses";
+import LoadingBar from "../components/Loadings";
 
 
 
@@ -16,6 +17,7 @@ export default function Login(){
     const [msg,setmsg]=useState("");
     const [response,setresponse]=useState(0)
     const theme=localStorage.getItem('theme')
+    const [loading,setloading]=useState(false)
     const [inputs,setinputs]=useState({
         log_detail:"",
         userPassword:"",
@@ -23,6 +25,7 @@ export default function Login(){
     const userString = localStorage.getItem("loguser");
     const user = userString ? JSON.parse(userString) : null;
     useEffect(()=>{
+
             const checkalreadyclint=async()=>{
                 const auth=await fetch('https://supportdesk-hm1g.onrender.com/api/Alreadylogin',{
                     method:'Get',
@@ -90,11 +93,12 @@ const handleresponse=(datas,nxt)=>{
     
     const login=async(e)=>{
         e.preventDefault()
+        setloading(true)
 
         if(inputs.log_detail!=""&&inputs.userPassword!=""){
             if(!checkspace(inputs.log_detail)&&!checkspace(inputs.userPassword)){
                 setmsg("")
-               
+             
                     localStorage.setItem("loguser",null);
                           const req=  await fetch("https://supportdesk-hm1g.onrender.com/api/Login",{
                                 method:'Post',
@@ -108,7 +112,7 @@ const handleresponse=(datas,nxt)=>{
                              
                                 const {loginnewuser}=await req.json()
                               
-                                
+                                setloading(false)
                                 localStorage.setItem("loguser",JSON.stringify(loginnewuser))
                                 localStorage.setItem('profile_img',loginnewuser.image)
                                 localStorage.setItem('dept',JSON.stringify({
@@ -132,6 +136,7 @@ const handleresponse=(datas,nxt)=>{
                                 
                             }
                             else{
+                                setloading(false)
                                 const response=(await req.json())
                                 setresponse(-1)
                                 setmsg(response.msg)
@@ -195,6 +200,11 @@ const handleresponse=(datas,nxt)=>{
 
         </fieldset>
         </form>
+        {loading&&
+        <div className="loadingbar" 
+           style={theme === 'light' ? { backgroundColor: 'white' } : { backgroundcolor: "#201f32df" }}        >
+           <LoadingBar type='bars' color='black' />
+         </div>}
         </section>)
          
    
