@@ -5,35 +5,35 @@
 }
 
 .light{
-  .background{
-      background-image: url(LightBg.png);
-    }      
+        .background{
+            background-image: url(LightBg.png);
+          }      
 
-  .webdetails{
-    color: rgb(27, 26, 26);
-  }
-  .home-discription{
-    color: rgb(16, 16, 16);
-  
-  }
-   
-  .main{
-    background-color: rgba(37, 37, 40, 0.775);
-    color: rgb(255, 255, 255);
-    border:1px solid rgb(16, 16, 15);  
-     
+        .webdetails{
+          color: rgb(27, 26, 26);
+        }
+        .home-discription{
+          color: rgb(16, 16, 16);
+        
+        }
+        
+        .main{
+          background-color: rgba(37, 37, 40, 0.775);
+          color: rgb(255, 255, 255);
+          border:1px solid rgb(16, 16, 15);  
+          
 
-}
-.AllTickets{
-  background-color: #cad0e1df;
-  color: rgb(17, 16, 16);
-}
+      }
+      .AllTickets{
+        background-color: #cad0e1df;
+        color: rgb(17, 16, 16);
+      }
 
-th {
-  background-color: #33d386bc;
-}
+      th {
+        background-color: #33d386bc;
+      }
 
-}
+      }
 .dark{
   
   .background{
@@ -44,7 +44,7 @@ th {
     background-color: rgba(255, 255, 255, 0.208);
     background-color: rgba(71, 67, 67, 0.392);
     backdrop-filter: blur(15px);
-    margin-left: 16%;
+   
   }
  
   .webdetails p{
@@ -130,8 +130,8 @@ td{
   grid-template-columns: repeat(auto-fit,minmax(500px,auto));
   border-radius: .5em;
   min-height: 80vh;
-  width: 85%;
- 
+  width: 100%;
+  margin-left: 16%;
 }
 
 
