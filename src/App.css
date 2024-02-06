@@ -7,7 +7,7 @@
 .light{
      .background{
           margin: 0%;
-            background-image: url(LightBg.png);
+            background-image: url(./assets/images/LightBg.png);
           }      
 
         .webdetails{
@@ -39,7 +39,7 @@
     margin: 0px;
   .background{
     margin: 0%;
-    background-image: url(./assets/5297078.jpg);
+    background-image: url(./assets/images/5297078.jpg);
   
   }
   .box{
