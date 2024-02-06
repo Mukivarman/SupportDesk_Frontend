@@ -93,12 +93,12 @@ const handleresponse=(datas,nxt)=>{
     
     const login=async(e)=>{
         e.preventDefault()
-        setloading(true)
+       
 
         if(inputs.log_detail!=""&&inputs.userPassword!=""){
             if(!checkspace(inputs.log_detail)&&!checkspace(inputs.userPassword)){
                 setmsg("")
-             
+                setloading(true)
                     localStorage.setItem("loguser",null);
                           const req=  await fetch("https://supportdesk-hm1g.onrender.com/api/Login",{
                                 method:'Post',
