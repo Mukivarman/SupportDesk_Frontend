@@ -5,7 +5,8 @@
 }
 
 .light{
-        .background{
+     .background{
+          margin: 0%;
             background-image: url(LightBg.png);
           }      
 
@@ -35,8 +36,9 @@
 
       }
 .dark{
-  
+    margin: 0px;
   .background{
+    margin: 0%;
     background-image: url(./assets/5297078.jpg);
   
   }
@@ -93,16 +95,8 @@ td{
 }
 
 
-.AllTickets{
- 
-  width:65% ;
-  margin-left: 16%;
-  border-radius: .5em;
-  min-height: 600px;
- 
-}
-
 .background{
+padding: 0%;
   min-height: 93vh;
   background-attachment:fixed;
   background-position: center;
@@ -112,13 +106,7 @@ td{
 
 
 
-.content{
-  min-height: 93vh;
-  display: flex;
-  padding: 2%;
-  align-items: center;
- 
-}
+
 .webdetails{
   display:  flex;
   align-items: center;
@@ -127,24 +115,24 @@ td{
 
 .box{
   display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(500px,auto));
+  grid-template-columns: repeat(auto-fit,minmax(350px,auto));
   border-radius: .5em;
   min-height: 80vh;
   width: 100%;
-  margin-left: 16%;
+ 
 }
 
 
 .home-big-para{
-  font-size: 40px;
+  font-size: 120%;
   font-weight: bolder;
 
 }
 .home-discription{
-  font-size: 20px;
+  font-size: 100%;
 }
 .home-start-btn{
-  width: 300px;
+  max-width: 200px;
   margin: 3%;
 }
 .Header{
@@ -181,70 +169,157 @@ td{
   z-index: 100;
 }
 
-
-.navbar li a{
-
-}
 @media screen and (max-width: 600px){
-      .navbar{
-      width: 100%;
-      }
-      .nav-icon{
-        width: 10px;
-      }
-      .navbar li{
-        display: inline-flex;
-
-
-      }
-      .navbar li a{
-        font-size: small;
-        display: block;
-        color: #ffffff;
-        background-color: #000000df;
-        border: .5px solid wheat;
-        padding: 8px 10px;
-        text-decoration: none;
-      }
+          .logout{
+          padding: 10px 10px;
+          font-size: 0px;
+          background-color: #0fd37468;
+        }
+        .content{
+          margin: 0px;
+        }
+          .newticket{
+            width: 95%;
+          }
+              .navbar{
+              width: 100%;
+              display: flex;
+              }
+              .nav-icon{
+                width: 20px;
+              }
+              .navbar li{
+              display: flex;
+              
+              }
+              .navbar li a{
+                font-size: 0px;
+                display: block;
+                color: #ffffff;
+                background-color: #000000df;
+                border: .5px solid wheat;
+                padding: 10px 10px;
+                text-decoration: none;
+              }
+              .AllTickets{
+              
+                width:100% ;
+                margin: auto;
+                border-radius: .5em;
+                min-height: 600px;
+              
+              }
+              table{
+              font-size: 10px;
+                width:98%;
+                
+              }
+              table  button{
+                font-size: 8px;
+              }
+              
 }
 
 
 @media screen and (min-width: 601px) and (max-width: 900px)
 {
-
-}
-
-@media screen and (min-width: 901px){
-
-    .navbar{
-      position: fixed;
-      width: 15%;
-      height: 100%;
+  .newticket{
+    width: 95%;
+  }
+  .navbar{
+    width: 100%;
+    height: auto;
+  
     }
+    .nav-icon{
+      width: 15px;
+    }
+ 
     .navbar li a{
+      font-size: small;
       display: block;
       color: #ffffff;
       background-color: #000000df;
       border: .5px solid wheat;
-      padding: 10px 20px;
+      padding: 8px 10px;
       text-decoration: none;
     }
-    .nav-icon{
-      width: 22px;
+    .AllTickets{
+              
+      width:100% ;
+      border-radius: .5em;
+      min-height: 600px;
+    
     }
+
+
+
+}
+
+@media screen and (min-width: 901px){
+            .newticket{
+              width: 50%;
+            }
+
+              .navbar{
+                position: fixed;
+                width: 15%;
+                height: 816px;
+              }
+              .navbar li a{
+                display: block;
+                color: #ffffff;
+                background-color: #000000df;
+                border: .5px solid wheat;
+                padding: 10px 20px;
+                text-decoration: none;
+              }
+              .nav-icon{
+                width: 22px;
+              }
+              .webdetails{
+                padding: 10%;
+              }
+              .box{
+                margin-left: 16%;
+              }
+              .content{
+                min-height: 93vh;
+                display: flex;
+                padding: 2%;
+                align-items: center;
+                margin: 0px;
+              }
+                  
+
+              .logout{
+                display: block;
+                padding: 10px 20px;
+                text-decoration: none;
+                position: fixed;
+                bottom: 0;
+                width: 15%;
+              }
+                            
+              .AllTickets{
+              
+                width:65% ;
+                margin-left: 16%;
+                border-radius: .5em;
+                min-height: 600px;
+              
+              }
+
 }
 
 
 .logout{
-  display: block;
   color: #ffffff;
   background-color: #000000df;
   border: .5px solid wheat;
-  padding: 10px 20px;
   text-decoration: none;
-  position: fixed;
-  bottom: 0;
-  width: 15%;
+
+
 }
 .logout :hover{
   background-color: #2ac132;
@@ -284,24 +359,23 @@ button{
 .userhome{
    width: 60%;
 margin-left: 18%;
-  
    height: 700px;
    background-image: url(./assets/supportdeskimg.jpg);
    background-position: center;
    background-repeat: no-repeat;
    background-size: cover;
    opacity: .5;
-  
    border: .1px solid white;
+   border: .1px solid white;
+   
+   border: .1px solid white; 
    
 }
 .webtitle{
   color: aliceblue;
-  
   padding: 3%;
 }
 .webtitle p{
-  font-size: 50px;
   font-family:Georgia, 'Times New Roman', Times, serif;
   font-weight: bolder;
 }

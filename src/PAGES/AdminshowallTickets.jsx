@@ -60,9 +60,9 @@ export default function AdminShowAllTickets(){
 
     return Accesspage&&loading?(
       <section className={theme==='light'?'light':'dark'}>
-   <LogNavbar page={user.power}/>
+ 
         <section className="content">
-        <section className="AllTickets" style={{width:'80%'}}>
+        <section className="AllTickets" style={{width:'100%'}}>
         <div className="allticketsdetails">
             <h2 style={{textAlign:"center",marginBottom:"5px"}}>All Tickets</h2>
            <table>

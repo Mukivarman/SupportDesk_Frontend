@@ -35,7 +35,7 @@ function App() {
 
   return (
     <section className={theme==="light"?"light":"dark"} >
-    <LogNavbar />
+   <LogNavbar />  
     <section className='background'>
       <Routes>
          <Route path='/' element={<LandingPage/>}/>
@@ -58,8 +58,7 @@ function App() {
         <Route path='/supporttmhomepage' element={<SupportTeamHomePage/>}/>
         
       </Routes>
-     
-    <ChangeTheme />
+     <ChangeTheme />
     
     </section>
    

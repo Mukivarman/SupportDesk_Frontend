@@ -4,14 +4,14 @@ import LogNavbar from "../components/navbar";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { checkalreadyclint } from "../js/tools";
+import LoadingBar from "../components/Loadings";
 
 export default function ShowAllTickets(){
       const navigate=useNavigate()
-   const [Data,setData]=useState(null)
-   const theme=localStorage.getItem('theme')
+      const [Data,setData]=useState(null)
+      const theme=localStorage.getItem('theme')
       const userString = localStorage.getItem("loguser");
       const user = userString ? JSON.parse(userString) : null;
-
       const [Accesspage,setAccesspage]=useState(false)
       const [loading,setloading]=useState(false)
  
@@ -66,9 +66,9 @@ export default function ShowAllTickets(){
       },[Accesspage])
 
 
-    return Accesspage&&loading&&(
+ return Accesspage&&loading?(
       <section className={theme==='light'?'light':'dark'}>
-      <LogNavbar page='User'/>
+  
         <section className="content">
        
             <section className="AllTickets">
@@ -92,7 +92,8 @@ export default function ShowAllTickets(){
                    <tr key={data._id}>
                        <td className="sno">{index}</td>
                        <td className="ticketid">{data._id}</td>
-                       <td className="ticketdate">{data. OccuredDate}</td>
+                       <td className="ticketdate">  {new Date(data.OccuredDate).toLocaleDateString()}-
+                        {data.OccuredTime}</td>
                        <td className="subject">{data.Subject} </td>
                        <td className="other">{data.AssignedUser===null?('Not Assigned'):(data.AssignedUser.username)}</td>
                        <td className="other">{data.Status} </td>
@@ -100,6 +101,10 @@ export default function ShowAllTickets(){
                     </tr> ))}
                 </tbody>
             </table>
+            {!loading&&
+             <div className="loadingbar" style={theme === 'light' ? { backgroundColor: 'white' } : { backgroundcolor: "#201f32df" }}        >
+                <LoadingBar type='bars' color='black' />
+            </div>}
         </div>
             </section>
    
@@ -107,4 +112,8 @@ export default function ShowAllTickets(){
         </section>
         </section>
     )
+    : 
+    <div className="loadingbar" style={theme === 'light' ? { backgroundColor: 'white' } : { backgroundcolor: "#201f32df" }}        >
+    <LoadingBar type='bars' color='black' />
+    </div>
 }

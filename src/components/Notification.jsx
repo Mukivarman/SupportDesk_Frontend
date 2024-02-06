@@ -51,7 +51,7 @@ const Li=(li)=>(
 
 
 return (
-    <section>
+    <section style={{height:"300px",overflow:'scroll',scrollbarWidth:'0px'}}>
       <h2 style={{ textAlign: 'center', marginBottom: '3%',borderBottom:'1px solid white'}}>Notifications</h2>
       <br/>
       {!list && <p style={{ textAlign: 'center', margin: '10px' }}>No Notification</p>}

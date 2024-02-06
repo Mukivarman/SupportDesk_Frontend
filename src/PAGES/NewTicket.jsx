@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { checkalreadyclint } from "../js/tools";
 import Input from "../components/Inputs";
 import '../assets/css/User.css'
+import LoadingBar from "../components/Loadings";
+import Success,{Failed} from "../components/Responses";
 
 
 export default function NewTicket(){
@@ -16,6 +18,9 @@ export default function NewTicket(){
         const [Accesspage,setAccesspage]=useState(false)
         const [Msg,setMsg]=useState("")
         const theme=localStorage.getItem('theme')
+        const [loading,setloading]=useState(false)
+        const [response,setresponse]=useState(0)
+        const [ticketid,setticketid]=useState(null)
         const [Inputs,setInputs]=useState({
             date:"",
             time:'',
@@ -47,6 +52,7 @@ export default function NewTicket(){
 
    const handlesubmit=async(e)=>{
     e.preventDefault()
+    setloading(true)
     if(Inputs.date!==""&&Inputs.subject!==""&&Inputs.message!==""&&Inputs.img!==null){
      try{
         const ticket={
@@ -70,11 +76,17 @@ export default function NewTicket(){
         })
         if(senddata.ok){
           const  ID=await senddata.json()
-
-            navigate(`/ViewTicketDetails/${ID.ticketID}`)
+          setticketid(ID.ticketID)
+          console.log(ID.ticketID)
+            setMsg("Ticket Is Successfully Submitted")
+            setresponse(1)
+        
+            
+           
         }else{
-            const response=await senddata.json()
-            setMsg(response.msg)
+            const res=await senddata.json()
+            setMsg(res.msg)
+            setresponse(-1)
         }
     }catch(e){
         console.error(e)
@@ -85,26 +97,47 @@ export default function NewTicket(){
         setMsg("Input fields Are Empty");
         
     }
-   }
-const handleimg=(e)=>{
-    const file=e.target.files[0];
-    setInputs({...Inputs,[e.target.name]:file})
+        }
+        const handleimg=(e)=>{
+            const file=e.target.files[0];
+            setInputs({...Inputs,[e.target.name]:file})
 
-}
+        }
+
+        const handleresponse=(datas,nxt)=>{
+            setresponse(datas)
+            if(nxt==0){
+               window.location.reload()
+            }
+            if(nxt==1){
+                console.log(ticketid)
+                if(ticketid){
+                navigate(`/ViewTicketDetails/${ticketid}`)
+            }
+        
+        }
+        
+        }
    
 const Label=(props)=>{
-return(<label>{props.text}</label>)
+         return(<label>{props.text}</label>)
 }
-return Accesspage&&(
 
-   <section  className={theme==='light'?'light':'dark'}>
-  <LogNavbar page={user.power}/>
+
+return Accesspage&& (
+
+   <div  className={theme==='light'?'light':'dark'}>
+
    <section className="content"> 
+   {loading&& 
+     <div className="loadingbar" style={theme === 'light' ? { backgroundColor: 'white' } : { backgroundcolor: "#201f32df" }}        >
+         <LoadingBar type='bars' color='black' />
+      </div>}
     <section className="newticket"> 
            <h2 className="new-ticket-head">
                Submit New Ticket
                    </h2>
-     <form className="ticket" onSubmit={handlesubmit}>
+    <form className="ticket" onSubmit={handlesubmit}>
         <Label text='Problem Occured Date:'/>
             <Input  
                 type="date" 
@@ -157,7 +190,9 @@ return Accesspage&&(
             
         </form>
      </section>
-        <SideBar/>
+     <SideBar/>
+     { response===1&&<Success data={Msg}  exit={handleresponse}/>}
+      {response===-1&&<Failed data={Msg} exit={handleresponse}/>}
     </section>
-    </section>)
+    </div>)
 }

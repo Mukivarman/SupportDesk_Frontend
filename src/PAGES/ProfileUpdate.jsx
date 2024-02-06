@@ -104,7 +104,6 @@ const formdata=new FormData();
 
     return Accesspage&&(
     <section className={theme==='light'?'light':'dark'}>
-          <LogNavbar page={user.power}/>
         <section className="content">
            <section className="main">
         <section className="img-update-section">

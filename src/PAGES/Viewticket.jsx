@@ -66,7 +66,9 @@ export default function ViewTicket(){
             } 
             else{
                 console.log(await getdata.json())
-                
+                setloading(false)
+                setResponses(-1)
+                setmsg("Ticket id is not valid")
             }
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -134,7 +136,7 @@ export default function ViewTicket(){
     const handleresponse=(datas,nxt)=>{
         setResponses(datas)
         if(nxt==0){
-           
+           navigate('/')
         }
     if(nxt==1){
         window.location.reload()
@@ -146,7 +148,7 @@ export default function ViewTicket(){
 const DivField=(props)=>( 
                 <div style={{display:'flex'}}> 
                 <h3 className="field">{props.field}</h3>
-        <h3 className="fielddata">{props.data}</h3>
+                <span className="fielddata">{props.data}</span>
 </div>)
 const handlesetoption=()=>{
 
@@ -180,12 +182,12 @@ const Selectfield = (props) => (
            <div className="viewticketfields">
          
                 <DivField field='Ticket Id :' data={Data._id}/>
-                <DivField field="Occured Date :" data={ new Date(Data.OccuredDate).toLocaleDateString()+"-"+Data.OccuredTime}/>
+                <DivField field="Occured Date:" data={ new Date(Data.OccuredDate).toLocaleDateString()+"-"+Data.OccuredTime}/>
                 <DivField field="Subject:" data={Data.Subject}/>
-                <DivField field="Message" data=""/>
-                         <h3 className="textarea">{Data.Message} </h3>
-
+                <DivField field="Message" />
+                <p className="textarea">{Data.Message} </p>
            </div>
+        
 
      <div className="view-ticket-image-section" >
                    <a href="#fullimg">

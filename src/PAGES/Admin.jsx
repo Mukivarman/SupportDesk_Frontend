@@ -81,7 +81,7 @@ if(user&&Accesspage){
          </section >
           
         <section className="graph">
-          <div style={{width:'600px',height:'400px'}}>
+          <div style={{width:'100%',height:'100%'}}>
               {chart?( <Barchart data={Status}/>):(<Piechart data={Status}/>)}
            </div>
            <div className="graphLinks" style={{width:'50%'}} >

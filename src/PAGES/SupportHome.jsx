@@ -69,7 +69,7 @@ export default function SupportTeamHomePage(){
             <section className="content"> 
            
             {Status&&
-            <section className="viewticket" style={{minHeight:'85vh',backgroundColor:'inherit'}}>
+            <section className="viewticket" style={{backgroundColor:'inherit'}}>
             <h3 style={{textAlign:'center'}}>Support User</h3>
             <section className="divbox" >
                 <Divs text='Total Tickets' data={Status.Total} bg=''/>
@@ -81,7 +81,7 @@ export default function SupportTeamHomePage(){
           
             <section className="graph">
 
-              <div style={{width:'600px',height:'400px'}}>
+              <div style={{width:'100%',height:'400px'}}>
                  {chart?( <Barchart data={Status}/>):(<Piechart data={Status}/>)}
               </div>
 

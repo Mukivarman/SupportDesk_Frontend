@@ -178,7 +178,7 @@ const List=(props)=>{
 
 
     return(
-    <section className={theme==='light'?'light':'dark'}>
+    <div className={theme==='light'?'light':'dark'}>
         <ul className="navbar">
             {!user&&withoutlogin.map((NavLinks,i)=>(
  <List key={i+1} links={NavLinks.link} linkpage={NavLinks.linkpage}  />
@@ -208,6 +208,6 @@ const List=(props)=>{
          
         
         </ul>
-    </section>)
+    </div>)
 }
 export default LogNavbar;

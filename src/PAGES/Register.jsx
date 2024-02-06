@@ -208,8 +208,6 @@ const handleresponse=(datas,nxt)=>{
   
     return pageaccess&&(
         <section className={theme==='light'?'light':'dark'}>
-            {user&&user!=='no user'&& <LogNavbar page='Admin'/>}
-           {user==='no user'&&<LogNavbar page='NotLogin'/>} 
         
       
       <section  className="content">

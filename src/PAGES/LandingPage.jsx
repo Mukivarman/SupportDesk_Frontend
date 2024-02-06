@@ -22,7 +22,7 @@ export default function LandingPage(){
                     </div>
                 </section>
                 <section>
-<img src="helpdesk.gif" style={{width:"80%",height:"80%"}}/>
+<img src="helpdesk.gif" style={{width:"90%",height:"90%"}}/>
                 </section>
               
             </section>
