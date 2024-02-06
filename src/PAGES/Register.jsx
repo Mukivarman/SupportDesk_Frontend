@@ -45,7 +45,8 @@ export default function Register(){
     setinputs({...inputs,[e.target.name]:e.target.value }) 
   }
 
-
+   
+   
  const createAcc=async(e)=>{
          
        console .log(inputs)
@@ -77,12 +78,12 @@ export default function Register(){
                                   });
 
                                   if(req.ok){
-
-                                      navigate("/Login")
+                                      setresponse(1)
                                   }
                                   else{
                                     const datas1=await req.json()
                                     setMsg(datas1.msg) 
+                                    setresponse(-1)
                                     console.log(datas1)
                                   }
                                 }
@@ -99,7 +100,6 @@ export default function Register(){
   
                                     if(req.ok){
                                         const datas=await req.json()
-                                        console.log('added')
                                         setMsg(datas.msg)
                                         setresponse(1)
 
@@ -141,9 +141,10 @@ export default function Register(){
           setMsg("Please Enter Valid Details")
       }
 }
+
 const SentOtp=async(e)=>{
    
-   
+   setMsg('')
     if(inputs.email!==''&&!checkspace(inputs.email)){
        setloading(true)
         const sending=await fetch('https://supportdesk-hm1g.onrender.com/api/otpsent',{
@@ -172,6 +173,10 @@ const SentOtp=async(e)=>{
 
 }
 
+  
+
+
+
 useEffect(()=>{
 if(inputs.otpemail!==''&&inputs.pto!==''){
     if(inputs.otpemail===inputs.email){
@@ -190,10 +195,14 @@ if(inputs.otpemail!==''&&inputs.pto!==''){
 
 
 
-const handleresponse=(datas)=>{
+const handleresponse=(datas,nxt)=>{
     setresponse(datas)
-    window.location.reload()
-    
+    if(nxt==0){
+        window.location.reload()
+    }
+   if(nxt==1){
+    navigate('/Login')
+   }
    
 }
   

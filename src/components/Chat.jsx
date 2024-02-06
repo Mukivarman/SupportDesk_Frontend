@@ -8,7 +8,7 @@ const userimg=localStorage.getItem('profile_img')
 
 const fetcingchat=async()=>{
     console.log('fetcing')
-    const getchat=await fetch(`/api/getchats/${props.id}`,{
+    const getchat=await fetch(`https://supportdesk-hm1g.onrender.com/api/getchats/${props.id}`,{
         method:'Get',
         headers:{
             'Content-Type':'application/json',
@@ -39,10 +39,8 @@ inputfocus.current.focus()
 
 useEffect(()=>{
     
-var chatintervel;
-if(Chatdata.length!==0)
-{ chatintervel= setInterval(updates,10000)
-}
+const chatintervel= setInterval(updates,5000)
+
 return()=>(
    clearInterval(chatintervel)
 )
@@ -54,7 +52,7 @@ const updates=async()=>{
   
     
         console.log('hit')
-        const getupdatechat=await fetch(`/api/chatlive/${props.id}/${Chatdata.length}`,{
+        const getupdatechat=await fetch(`https://supportdesk-hm1g.onrender.com/api/chatlive/${props.id}/${Chatdata.length}`,{
             method:'Get',
             headers:{
                 'Content-Type':'application/json',
@@ -78,7 +76,7 @@ const updates=async()=>{
 const [inputs,setinputs]=useState('')
 
 const Assistchat=(props)=>(
-    <div key={props.key} className="assistchat">
+    <div  className="assistchat">
           <div className="user-img-chat">
            {props.datas.power==='User'?'':<div className="userimge" />}
             <p>{props.datas.user}</p>
@@ -93,7 +91,7 @@ const Assistchat=(props)=>(
 
 
 const Userchat = (props) => (
-    <div key={props.key} className="userchat">
+    <div  className="userchat">
       <div className="tm-msg">
         <p>{props.datas.msg}</p>
         <p className="time" style={{}}>{ new Date(props.datas.time).toLocaleDateString()+'-'+new Date(props.datas.time).toLocaleTimeString()}</p>
@@ -109,7 +107,7 @@ const Userchat = (props) => (
 
 const handleinputchat=async()=>{
     if(inputs!==""){
-        const res=await fetch('/api/postchat',{
+        const res=await fetch('https://supportdesk-hm1g.onrender.com/api/postchat',{
             method:'Post',
             headers:{
                 'Content-Type':'application/json',

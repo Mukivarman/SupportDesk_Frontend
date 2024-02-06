@@ -1,0 +1,103 @@
+
+.light{
+    .field{
+        color: rgb(6, 6, 6);
+    }
+    .fielddata{
+        color: rgb(28, 46, 119);
+    }
+    .textarea{
+        color: black;
+    }
+}
+.dark{
+
+    .field{
+        color: rgb(255, 217, 0);
+    }
+    .viewticket{
+        background-color: rgba(1, 255, 255, 0.286);
+        backdrop-filter: blur(10px);
+}
+}
+.viewticket{
+    width: 85%;
+    min-height: 80vh;
+    padding: 2%;
+    color: white;
+    border-radius: .5em;
+    margin-left: 15%;
+    
+}
+
+
+.viewsubject{
+    text-align: center;
+    color: rgb(15, 244, 15);
+   font-size: 30px;
+    height: 40px;
+}
+
+
+.view-ticket-image-section{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 2%;
+
+}
+.view-ticket-image{
+    width: 60%;
+    height: 100%;
+    max-height: 50vh;
+
+}
+.view-ticket-details{
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(auto-fit,minmax(500px,auto));
+}
+.viewticketfields{
+    width: 100%;
+    display:flex;
+    flex-direction:column;
+    padding:2%;
+}
+.field{
+    font-size: 20px;
+    margin: 1%;
+    padding: 1%;
+    width: 31%;
+  
+   
+    
+}
+
+.fielddata{
+    font-size: 20px;
+    margin: 1%;
+    padding: 1%;
+    min-width: 25%;
+  
+    
+}
+.textarea {
+    width: 100% ;
+    margin: 1%;
+    padding: 1%;
+    font-size: 16px;
+    text-indent: 20px;
+
+}.viewticketimg{
+    width: 60%;
+    height: 100%;
+    max-height:50vh ;
+}
+.viewticketimgfull{ 
+       
+        width: 1000px;
+        overflow: scroll;
+        top: 20px;
+        left: 100px;
+}

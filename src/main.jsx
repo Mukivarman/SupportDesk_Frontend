@@ -9,11 +9,8 @@ import Header from './components/Headers.jsx';
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
        <Header/>
+       
     <BrowserRouter>
-  <Routes>
-  <Route path='/' element={<LandingPage/>}/>
-
-  </Routes>
    
     <App />
     </BrowserRouter>

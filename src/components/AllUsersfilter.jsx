@@ -5,10 +5,10 @@ import { checkalreadyclint } from "../js/tools";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import UserDetail from "./UserDetails";
-
+import LoadingBar from "../components/Loadings";
 
 export default function AllUsersFilter(){
-    
+  const theme=localStorage.getItem('theme')
     const {filter}=useParams()
     const navigate=useNavigate()
      const userString = localStorage.getItem("loguser");
@@ -41,7 +41,7 @@ export default function AllUsersFilter(){
 
     const fetchData = async () => {
        
-      try { const getdata=await fetch(`/api/AllUsersByAdmin/${filter}`,{
+      try { const getdata=await fetch(`https://supportdesk-hm1g.onrender.com/api/AllUsersByAdmin/${filter}`,{
          method:'Get',
          headers:{
             'Content-Type': 'application/json',  
@@ -75,8 +75,8 @@ const exit=(datas)=>{
 }
 
 
-  return Accesspage&&loading&&!viewuser?(
-      ( <table>
+  return Accesspage&&loading?!viewuser?(
+      (<section> <table>
             <thead>
                 <tr>
                     <th>S.No</th>
@@ -100,6 +100,7 @@ const exit=(datas)=>{
             </thead>
          
             <tbody>
+           
      {Data&& Data.map((data,index)=>(
          <tr key={data._id}>
                 <td>{index+1}</td>
@@ -131,10 +132,16 @@ const exit=(datas)=>{
                 </tr> ))}
             </tbody>
         </table>
-      
-  )):
- ( viewuser&&viewuserdata&&<UserDetail data={viewuserdata} exit={exit} />)
-  
+    {!Data&& <div className="loadingbar" style={theme === 'light' ? { backgroundColor: 'white' } : { backgroundColor: 'rgba(1, 255, 255, 0.286)',backdropFilter:'blur(5px)' }}        >
+       <LoadingBar type='bars' color='black' />
+       </div>}
+    </section>    
+  )
+  ):
+ ( viewuser&&viewuserdata&&<UserDetail data={viewuserdata} exit={exit} />):
+ <div className="loadingbar" style={theme === 'light' ? { backgroundColor: 'white' } : { backgroundColor: 'rgba(1, 255, 255, 0.286)',backdropFilter:'blur(5px)' }}        >
+ <LoadingBar type='bars' color='black' />
+ </div>
   
 
 }

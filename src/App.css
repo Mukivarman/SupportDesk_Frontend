@@ -5,8 +5,7 @@
 }
 
 .light{
-  
-    .content{
+  .background{
       background-image: url(LightBg.png);
     }      
 
@@ -37,7 +36,7 @@ th {
 }
 .dark{
   
-  .content{
+  .background{
     background-image: url(./assets/5297078.jpg);
   
   }
@@ -45,6 +44,7 @@ th {
     background-color: rgba(255, 255, 255, 0.208);
     background-color: rgba(71, 67, 67, 0.392);
     backdrop-filter: blur(15px);
+    margin-left: 16%;
   }
  
   .webdetails p{
@@ -102,21 +102,22 @@ td{
  
 }
 
-
-
-
-
-.content{
-
- 
+.background{
+  min-height: 93vh;
   background-attachment:fixed;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+
+
+.content{
   min-height: 93vh;
-  padding: 2%;
   display: flex;
+  padding: 2%;
   align-items: center;
+ 
 }
 .webdetails{
   display:  flex;
@@ -126,10 +127,9 @@ td{
 
 .box{
   display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(200px,auto));
-  margin: auto;
+  grid-template-columns: repeat(auto-fit,minmax(500px,auto));
   border-radius: .5em;
-  height: 80vh;
+  min-height: 80vh;
   width: 85%;
  
 }
@@ -172,26 +172,69 @@ td{
 
 
 
-
 .navbar {
   list-style-type: none;
   margin: 0;
-  padding: 0;
-  width: 15%;
+  padding: 0;  
   background-color: #554b4bc1;  
-  position: fixed;
-  height: 100%;
   overflow: auto;
+  z-index: 100;
 }
 
-li a {
-  display: block;
-  color: #ffffff;
-  background-color: #000000df;
-  border: .5px solid wheat;
-  padding: 10px 20px;
-  text-decoration: none;
+
+.navbar li a{
+
 }
+@media screen and (max-width: 600px){
+      .navbar{
+      width: 100%;
+      }
+      .nav-icon{
+        width: 10px;
+      }
+      .navbar li{
+        display: inline-flex;
+
+
+      }
+      .navbar li a{
+        font-size: small;
+        display: block;
+        color: #ffffff;
+        background-color: #000000df;
+        border: .5px solid wheat;
+        padding: 8px 10px;
+        text-decoration: none;
+      }
+}
+
+
+@media screen and (min-width: 601px) and (max-width: 900px)
+{
+
+}
+
+@media screen and (min-width: 901px){
+
+    .navbar{
+      position: fixed;
+      width: 15%;
+      height: 100%;
+    }
+    .navbar li a{
+      display: block;
+      color: #ffffff;
+      background-color: #000000df;
+      border: .5px solid wheat;
+      padding: 10px 20px;
+      text-decoration: none;
+    }
+    .nav-icon{
+      width: 22px;
+    }
+}
+
+
 .logout{
   display: block;
   color: #ffffff;

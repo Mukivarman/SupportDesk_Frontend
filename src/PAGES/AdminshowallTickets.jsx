@@ -3,6 +3,7 @@ import LogNavbar from "../components/navbar";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { checkalreadyclint } from "../js/tools";
+import LoadingBar from "../components/Loadings";
 
 export default function AdminShowAllTickets(){
      const theme=localStorage.getItem('theme')
@@ -57,7 +58,7 @@ export default function AdminShowAllTickets(){
       },[Accesspage])
 
 
-    return Accesspage&&loading&&(
+    return Accesspage&&loading?(
       <section className={theme==='light'?'light':'dark'}>
    <LogNavbar page={user.power}/>
         <section className="content">
@@ -94,5 +95,7 @@ export default function AdminShowAllTickets(){
             </section>
         </section>
         </section>
-    )
+    ): <div className="loadingbar" style={theme === 'light' ? { backgroundColor: 'white' } : { backgroundColor: 'rgba(1, 255, 255, 0.286)',backdropFilter:'blur(5px)' }}        >
+    <LoadingBar type='bars' color='black' />
+    </div>
 }

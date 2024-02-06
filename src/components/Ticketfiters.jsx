@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import LogNavbar from "./navbar";
 import { checkalreadyclint } from "../js/tools";
 import SideBar from "./Sidebar";
+import LoadingBar from "../components/Loadings";
 
 export default function TicketFilterPage() {
   const { filter } = useParams();
@@ -16,6 +17,7 @@ export default function TicketFilterPage() {
 
   const fetchData = async (links) => {
     try {
+      setList(null)
       const response = await fetch(links, {
         method: "GET",
         headers: {
@@ -35,7 +37,7 @@ export default function TicketFilterPage() {
   };
 
   useEffect(() => {
-    console.log("1 render");
+   
     if (user) {
       const thisPage = user.power;
       checkalreadyclint(user, setAccessPage, navigate, thisPage);
@@ -43,7 +45,7 @@ export default function TicketFilterPage() {
       navigate("/Login");
     }
 
-    console.log("2 render");
+
     if (filter) {
       if (user.power === "Admin") {
         const links = `https://supportdesk-hm1g.onrender.com/api/filters/${filter}`;
@@ -56,9 +58,9 @@ export default function TicketFilterPage() {
         fetchData(links);
       }
     }
-  }, [filter, user]);
+  }, [filter]);
 
-  return accessPage && loading && (
+  return accessPage && loading? (
     <section className={theme==='light'?'light':'dark'}>
       <LogNavbar page={user.power} />
       <section className="content">
@@ -114,10 +116,16 @@ export default function TicketFilterPage() {
                   ))}
               </tbody>
             </table>
+    {!list&&
+     <div className="loadingbar" style={theme === 'light' ? { backgroundColor: 'white' } : {  backgroundcolor: "#201f32df"}}        >
+           <LoadingBar type='bars' color='black' />
+    </div>}
           </div>
         </section>
       </section>
       {user.power === "User" && <SideBar />}
     </section>
-  );
+  ): <div className="loadingbar" style={theme === 'light' ? { backgroundColor: 'white' } : { backgroundcolor: "#201f32df" }}        >
+  <LoadingBar type='bars' color='black' />
+  </div>
 }

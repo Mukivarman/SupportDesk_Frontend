@@ -5,7 +5,7 @@ import { checkspace } from "../js/tools";
 import Input from "../components/Inputs";
 import LogNavbar from "../components/navbar";
 import '../assets/css/Login.css'
-
+import {Failed} from "../components/Responses";
 
 
 
@@ -14,6 +14,7 @@ export default function Login(){
     const navigate=useNavigate();
     const [Accesspage,setAccesspage]=useState(false);
     const [msg,setmsg]=useState("");
+    const [response,setresponse]=useState(0)
     const theme=localStorage.getItem('theme')
     const [inputs,setinputs]=useState({
         log_detail:"",
@@ -31,14 +32,10 @@ export default function Login(){
                     }
 
                 })
-                 if (!auth.ok) {
-      throw new Error('Network response was not ok');
-    }
                 if(auth.ok){
                     
                     const {loginnewuser}=await auth.json()
-                                   
-                    console.log(loginnewuser)
+                  
                 
                     if(loginnewuser.power==='Admin'){
                         navigate('/AdminPage')
@@ -59,7 +56,7 @@ export default function Login(){
                 }else{
                     localStorage.setItem('loguser','')
                     localStorage.setItem('profile_img','')
-            
+                   
                     navigate('/Login')
                     console.log(await auth.json())
 
@@ -76,7 +73,13 @@ export default function Login(){
           
     },[])
 
+     
+const handleresponse=(datas,nxt)=>{
+    setresponse(datas)
+    window.location.reload()
    
+   
+}
 
    
     
@@ -104,8 +107,7 @@ export default function Login(){
                             if(req.ok){
                              
                                 const {loginnewuser}=await req.json()
-                               
-                                console.log(loginnewuser)
+                              
                                 
                                 localStorage.setItem("loguser",JSON.stringify(loginnewuser))
                                 localStorage.setItem('profile_img',loginnewuser.image)
@@ -113,6 +115,7 @@ export default function Login(){
                                     dept:loginnewuser.dept,
                                     empcode:loginnewuser.empcode
                                 }))
+                                if(response==0){
                                 if(loginnewuser.power==='Admin'){
                                     navigate('/AdminPage')
                                 }else if(loginnewuser.power==='SupportTeam'){
@@ -125,12 +128,14 @@ export default function Login(){
                                     navigate('/NewTicket')
                                   }
                                 }
-                              
+                            }
                                 
                             }
                             else{
                                 const response=(await req.json())
+                                setresponse(-1)
                                 setmsg(response.msg)
+                                
                                 
                             }
 
@@ -149,11 +154,13 @@ export default function Login(){
        
         
     }
-    return Accesspage&&(    
+
+  
+    return Accesspage&&response==-1?<Failed data={msg} exit={handleresponse}/>:(    
+        
         <section className={theme==='light'?'light':'dark'}>
            
-            <LogNavbar page='NotLogin'/>
-          
+           
       <form onSubmit={login}  className="content"> 
           <fieldset className="main">
                  <h1 className="head-login">Login</h1>
@@ -172,7 +179,9 @@ export default function Login(){
                 value={inputs.userPassword}/>
           
             <p style={{margin:"1%",color:"red"}}>{msg}</p>
-            
+        
+         
+
             <button type="submit">Login</button>
             
    

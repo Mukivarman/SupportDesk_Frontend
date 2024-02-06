@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import SideBar from "../components/Sidebar";
-import EditProfile from "./EditebleSidebar";
 import LogNavbar from "../components/navbar";
 import { checkalreadyclint } from "../js/tools";
 import { useNavigate } from "react-router-dom";

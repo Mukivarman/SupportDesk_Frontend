@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { checkalreadyclint } from "../js/tools";
 import Buttons from "../components/Buttons";
 import Divs from "../components/DivsInStatuspage";
-
+import LoadingBar from "../components/Loadings";
 
 
 export default function Adminpage(){
@@ -64,7 +64,7 @@ if(user&&Accesspage){
 
 
 
-    return Accesspage&&loading&&(
+    return loading?( Accesspage&&
      <section className={theme==='light'?'light':'dark'}>
     
         <section className="content"> 
@@ -96,5 +96,7 @@ if(user&&Accesspage){
           </section>}
             </section>
         </section>
-    )
+    ):  <div className="loadingbar" style={theme === 'light' ? { backgroundColor: 'white' } : { backgroundcolor: "#201f32df" }}        >
+    <LoadingBar type='bars' color='black' />
+    </div>
 }

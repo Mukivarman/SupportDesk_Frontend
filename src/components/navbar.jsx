@@ -131,10 +131,12 @@ const [ClintLogin,setClintLogin]=useState([
         linkpage:'Pending Tickets'
     },
     {
+        path:'../src/assets/images/icons/waiting.png',
         link:'/ticketfilter/waiting',
         linkpage:'View  Waiting Tickets'
     },
     {
+        path:'../src/assets/images/icons/onhold.png',
         link:'/ticketfilter/OnHold',
         linkpage:'View Holding Tickets'
     },
@@ -170,7 +172,7 @@ const logout=()=>{
 
 const List=(props)=>{
     return(
-            <li key={props.i}><NavLink to={props.links}><img src={props.path} width={22} />  {props.linkpage}</NavLink></li>
+            <li key={props.i}><NavLink to={props.links}><img src={props.path} className="nav-icon" />  {props.linkpage}</NavLink></li>
     )
 }
 

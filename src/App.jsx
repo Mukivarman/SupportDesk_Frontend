@@ -15,7 +15,7 @@ import ShowAllTickets from './PAGES/TicketsPage'
 import Login from './PAGES/Login'
 import NewTicket from './PAGES/NewTicket'
 import ViewTicket from './PAGES/Viewticket'
-import LandingPage from './PAGES/LandingPage'
+import LandingPage from './PAGES/LandingPage';
 import Adminpage from './PAGES/Admin'
 import SupportTeam_AllTickets from './PAGES/TekeTickets'
 import AdminShowAllTickets from './PAGES/AdminshowallTickets'
@@ -30,14 +30,15 @@ import ChangeTheme from './components/ThemeChange'
 
 function App() {
   
-
+  const theme=localStorage.getItem('theme')
 
 
   return (
-    <section>
+    <section className={theme==="light"?"light":"dark"} >
     <LogNavbar />
+    <section className='background'>
       <Routes>
-     
+         <Route path='/' element={<LandingPage/>}/>
         <Route path='/UserRegister' element={<Register/>}/>
         <Route path='/Login' element={<Login/>}/>
         <Route path='/profileupdate' element={<ProfileUpdate/>}/>
@@ -60,7 +61,7 @@ function App() {
      
     <ChangeTheme />
     
-    
+    </section>
    
     </section>
   )

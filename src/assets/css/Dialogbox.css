@@ -83,14 +83,14 @@
 .msg{
     height: 80px;
     width: 100%;
-   
+   padding: 2%;
     margin-bottom:2% ;
 }
 .msg p{
     color: white;
     font-weight: bolder;
     padding: 3%;
-    
+    text-align: center;
 }
 .failed{
     width: 400px;
@@ -100,7 +100,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color:  rgba(134, 36, 36, 0.601);
+    z-index: 100;
+    background-color:  rgb(236, 57, 57);
 }
 .failedimg{
     background-image: url(../images/icons/warning.png);

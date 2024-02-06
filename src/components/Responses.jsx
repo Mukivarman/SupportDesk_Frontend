@@ -13,7 +13,7 @@ export default function Success(props){
                 <div className="msg">
                     <p>{props.data}</p>
                 </div>
-                <p className="ok" onClick={()=>(props.exit(0))}>OK</p>
+                <p className="ok" onClick={()=>(props.exit(0,1))}>OK</p>
                 </div>
            
             </section>
@@ -33,7 +33,7 @@ function Failed(props){
                 <div className="msg">
                     <p>{props.data}</p>
                 </div>
-                <p className="ok" onClick={()=>(props.exit(0))}>Ok</p>
+                <p className="ok" onClick={()=>(props.exit(0,0))}>Ok</p>
                 </div> 
 
         </section>
