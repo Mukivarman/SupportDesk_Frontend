@@ -211,8 +211,8 @@ const Selectfield = (props) => (
                                    :(Data.AssignedUser.username)}/>
               <DivField  
                        field="Created At" 
-                       data={new Date().toLocaleDateString()+' - '
-                       +new Date().toLocaleTimeString()}/>
+                       data={new Date(Data.CreatedAt).toLocaleDateString()+' - '
+                       +new Date(Data.CreatedAt).toLocaleTimeString()}/>
              
         
               <DivField

@@ -100,7 +100,7 @@ export default function TicketFilterPage() {
                       </td>
                       <td>
                         {new Date(item.OccuredDate).toLocaleDateString()}-
-                        {item.OccuredTime}
+                        {new Date(item.OccuredDate).toLocaleTimeString()}
                       </td>
                       <td>
                         <button
