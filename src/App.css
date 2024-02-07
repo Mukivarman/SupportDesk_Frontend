@@ -30,46 +30,46 @@
         color: rgb(17, 16, 16);
       }
 
-      th {
-        background-color: #33d386bc;
-      }
+            th {
+              background-color: #33d386bc;
+           }
 
       }
 .dark{
     margin: 0px;
-  .background{
-    margin: 0%;
-    background-image: url(./assets/images/5297078.jpg);
-  
-  }
-  .box{
-    background-color: rgba(255, 255, 255, 0.208);
-    background-color: rgba(71, 67, 67, 0.392);
-    backdrop-filter: blur(15px);
-   
-  }
- 
-  .webdetails p{
-    color: rgb(241, 233, 233);
+              .background{
+                margin: 0%;
+                background-image: url(./assets/images/5297078.jpg);
+              
+              }
+              .box{
+                background-color: rgba(255, 255, 255, 0.208);
+                background-color: rgba(71, 67, 67, 0.392);
+                backdrop-filter: blur(15px);
+              
+              }
+            
+              .webdetails p{
+                color: rgb(241, 233, 233);
 
-  }
-  
+              }
+              
 
-    .main{
-      background-color: rgba(60, 60, 67, 0.284);
-      color: antiquewhite;
-      border:1px solid wheat;     
+                .main{
+                  background-color: rgba(60, 60, 67, 0.284);
+                  color: antiquewhite;
+                  border:1px solid wheat;     
 
-}
-.AllTickets{
-  background-color: #201f32df;
-  color: white;
-}
+            }
+            .AllTickets{
+              background-color: #201f32df;
+              color: white;
+            }
 
-th {
-  background-color: #0fd37468;
+            th {
+              background-color: #0fd37468;
 
-}
+            }
 
 
 }
@@ -142,7 +142,7 @@ padding: 0%;
   height: 70px;
   color: rgb(17, 166, 166);
   background-color: rgb(90, 95, 191);
- position: sticky;
+  position: sticky;
   top: 0%;
   z-index:100;
 }
@@ -170,17 +170,17 @@ padding: 0%;
 }
 
 @media screen and (max-width: 600px){
-          .logout{
-          padding: 10px 10px;
-          font-size: 0px;
-          background-color: #0fd37468;
-        }
-        .content{
-          margin: 0px;
-        }
-          .newticket{
-            width: 95%;
-          }
+                .logout{
+                padding: 10px 10px;
+                font-size: 0px;
+                background-color: #0fd37468;
+              }
+              .content{
+                margin: 0px;
+              }
+              .newticket{
+                width: 95%;
+              }
               .navbar{
               width: 100%;
               display: flex;
@@ -223,34 +223,34 @@ padding: 0%;
 
 @media screen and (min-width: 601px) and (max-width: 900px)
 {
-  .newticket{
-    width: 95%;
-  }
-  .navbar{
-    width: 100%;
-    height: auto;
-  
-    }
-    .nav-icon{
-      width: 15px;
-    }
- 
-    .navbar li a{
-      font-size: small;
-      display: block;
-      color: #ffffff;
-      background-color: #000000df;
-      border: .5px solid wheat;
-      padding: 8px 10px;
-      text-decoration: none;
-    }
-    .AllTickets{
+              .newticket{
+                width: 95%;
+              }
+              .navbar{
+                width: 100%;
+                height: auto;
               
-      width:100% ;
-      border-radius: .5em;
-      min-height: 600px;
-    
-    }
+                }
+                .nav-icon{
+                  width: 15px;
+                }
+            
+                .navbar li a{
+                  font-size: small;
+                  display: block;
+                  color: #ffffff;
+                  background-color: #000000df;
+                  border: .5px solid wheat;
+                  padding: 8px 10px;
+                  text-decoration: none;
+                }
+                .AllTickets{
+                          
+                  width:100% ;
+                  border-radius: .5em;
+                  min-height: 600px;
+                
+                }
 
 
 
@@ -358,7 +358,7 @@ button{
 
 .userhome{
    width: 60%;
-margin-left: 18%;
+   margin-left: 18%;
    height: 700px;
    background-image: url(./assets/supportdeskimg.jpg);
    background-position: center;
