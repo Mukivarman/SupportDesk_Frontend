@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import LogNavbar from "./navbar";
 import { checkalreadyclint } from "../js/tools";
-import SideBar from "./Sidebar";
+import SideBar from "../components/Sidebar";
 import LoadingBar from "../components/Loadings";
+import { fetch_Api } from "../js/tools";
 
 export default function TicketFilterPage() {
   const { filter } = useParams();
@@ -18,19 +18,17 @@ export default function TicketFilterPage() {
   const fetchData = async (links) => {
     try {
       setList(null)
-      const response = await fetch(links, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${user.jwttoken}`,
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setList(data);
+      const Data=await fetch_Api(links,'Get',user.jwttoken)
+  
+      if(Data.Res){
+        setList(Data.data);
         setLoading(true);
+      
+      }else{
+        setLoading(true)
+        console.log(Data.msg)
       }
+
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -48,13 +46,13 @@ export default function TicketFilterPage() {
 
     if (filter) {
       if (user.power === "Admin") {
-        const links = `https://supportdesk-hm1g.onrender.com/api/filters/${filter}`;
+        const links = `api/filters/${filter}`;
         fetchData(links);
       } else if (user.power === "SupportTeam") {
-        const links = `https://supportdesk-hm1g.onrender.com/api/SupportTeamclintdetails/${filter}`;
+        const links = `api/SupportTeamclintdetails/${filter}`;
         fetchData(links);
       } else if (user.power === "User") {
-        const links = `https://supportdesk-hm1g.onrender.com/api/userfilters/${filter}`;
+        const links = `api/userfilters/${filter}`;
         fetchData(links);
       }
     }
@@ -115,6 +113,7 @@ export default function TicketFilterPage() {
                   ))}
               </tbody>
             </table>
+            {list&&list.length==0&&<p style={{textAlign:'center',marginTop:'15%'}}>List Is Empty NO  Data Avail </p>}
     {!list&&
      <div className="loadingbar" style={theme === 'light' ? { backgroundColor: 'white' } : {  backgroundcolor: "#201f32df"}}        >
            <LoadingBar type='bars' color='black' />

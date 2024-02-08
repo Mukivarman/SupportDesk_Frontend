@@ -1,24 +1,16 @@
 import React, { useEffect, useState } from "react";
+import { fetch_Api } from "../js/tools";
 
 export default function Details(props){
 const [Data,setData]=useState(null)
 
     const getdata=async()=>{
-
-        const req=await fetch('https://supportdesk-hm1g.onrender.com/api/GetUserStatus',{
-            method:'Get',
-            headers:{
-                'Content-Type': 'application/json',  
-                'authorization':`Bearer ${props.user.jwttoken}`
-            }
-        })
-        if(req.ok){
-            const data=await req.json()
-            setData(data)
-            console.log(data)
+        const req=await fetch_Api('api/GetUserStatus','Get',props.user.jwttoken)
+        if(req.Res){
+            setData(req.data)
         }
         else{
-            console.log(await req.json())
+            console.log(req.msg)
         }
     } 
     useEffect(()=>

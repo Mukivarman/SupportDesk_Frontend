@@ -9,7 +9,7 @@ import SelectOPtionAddAdmin from "../components/SelectOptionAdmin";
 import '../assets/css/Login.css'
 import Loadingicon from "../components/loading";
 import Success,{Failed} from "../components/Responses";
-
+import { fetch_Api } from "../js/tools";
 
 export default function Register(){
     const theme=localStorage.getItem('theme')
@@ -45,10 +45,44 @@ export default function Register(){
     setinputs({...inputs,[e.target.name]:e.target.value }) 
   }
 
-   
+  const PostUser=async(inputs)=>{
+    const jwt="";
+        const Data=await fetch_Api('api/Register','Post',jwt,JSON.stringify(inputs))
+    
+            if(Data.Res){
+              
+                setMsg("Registered Successfully")
+                setresponse(1)
+                setloading(false)
+            }else{
+                console.log(Data.msg)
+                setMsg(Data.msg.msg) 
+                setresponse(-1)
+                setloading(false)
+            }
+    
+    }
+                                    
+    const AddNewUser=async(inputs)=>{
+                
+        const Data=await fetch_Api(`api/Add/${option}`,'Post',user.jwttoken,JSON.stringify(inputs))
+    
+            if(Data.Res){
+             
+                setMsg(Data.data.msg)
+                setresponse(1)
+                setloading(false)
+            }else{
+                setMsg(Data.msg.msg)
+                setresponse(1)
+                console.log(Data.msg)
+                setloading(false)
+            }
+    
+    }
    
  const createAcc=async(e)=>{
-         
+         setloading(true)
        console .log(inputs)
   //check empty
       if(inputs.username!==""&&inputs.email!==""&&inputs.password!==""&&inputs.repeatpassword!==""&&inputs.otpemail!==''&&inputs.otp!==''&&inputs.pto!==''){
@@ -67,56 +101,21 @@ export default function Register(){
                      
                      
                       try{
-                        if(registeruser==='user'){
-                           
-                                const req=  await fetch('https://supportdesk-hm1g.onrender.com/api/Register',{
-                                      method:'Post',
-                                      headers:{
-                                          'Content-Type': 'application/json'
-                                      },
-                                      body:JSON.stringify(inputs),
-                                  });
+               if(registeruser==='user'){
+                                                                
+                            const register=   PostUser(inputs)     
 
-                                  if(req.ok){
-                                      setresponse(1)
-                                  }
-                                  else{
-                                    const datas1=await req.json()
-                                    setMsg(datas1.msg) 
-                                    setresponse(-1)
-                                    console.log(datas1)
-                                  }
-                                }
-                                else if(registeruser==='Admin'&&option!=='select'){
-                                    console.log(option)
-                                    const req=  await fetch(`https://supportdesk-hm1g.onrender.com/api/Add/${option}`,{
-                                        method:'Post',
-                                        headers:{
-                                            'Content-Type': 'application/json',
-                                            'authorization':`Bearer ${user.jwttoken}`
-                                        },
-                                        body:JSON.stringify(inputs),
-                                    });
+                         }
+             else if(registeruser==='Admin'&&option!=='select'){
+               
+                          const add= AddNewUser(inputs)
   
-                                    if(req.ok){
-                                        const datas=await req.json()
-                                        setMsg(datas.msg)
-                                        setresponse(1)
 
-                                    }
-                                    else{
-                                        const datas=await req.json()
-                                        setMsg(datas.msg)
-                                        setresponse(1)
-
-                                       
-                                    }
-
-                                }
-                                else{
-                                    setMsg('regis failed')
-                                    
-                                }
+                   }
+                   else{
+                        setMsg('regis failed')
+                                 
+                          }
 
                       }catch(e){
                           console.log(e+"reg fail")
@@ -147,25 +146,22 @@ const SentOtp=async(e)=>{
    setMsg('')
     if(inputs.email!==''&&!checkspace(inputs.email)){
        setloading(true)
-        const sending=await fetch('https://supportdesk-hm1g.onrender.com/api/otpsent',{
-            method:'Post',
-            headers:{
-                'Content-Type': 'application/json'
-            },
-            body:JSON.stringify({email:inputs.email})
+                    const jwt='';
+            const Data=await fetch_Api('api/otpsent','Post',jwt,JSON.stringify({email:inputs.email}))
 
-        })
-        if(sending.ok){
-            const datas=await sending.json()
-            setMsg('')
-            setloading(false)
-            setinputs({...inputs,
-            otpemail:datas.Email,
-            pto:datas.Otp})
-        }else{
-           setloading(false)
-            setMsg("otp genration failed")
-        }
+            if(Data.Res){
+                const datas=Data.data
+                setMsg('')
+                setloading(false)
+                setinputs({...inputs,
+                    otpemail:datas.Email,
+                    pto:datas.Otp})
+            }else{
+                console.log(Data.msg)
+                setMsg("otp genration failed")
+            }
+
+         
 
     }else{
         setMsg('email need')
@@ -246,8 +242,9 @@ const handleresponse=(datas,nxt)=>{
             value={inputs.repeatpassword}/>
        <div>
       {Otpinput==false&&<div>
-         <button onClick={SentOtp} style={{width:'100px'}}>Sent otp</button>
-         {loading&&<Loadingicon/>}
+        
+         {loading?<div style={{display:"flex",justifyContent:'center'}}><Loadingicon/></div>
+            : <button onClick={SentOtp} style={{width:'100px'}}>Sent otp</button>}
          </div>
          }
      
@@ -267,7 +264,8 @@ const handleresponse=(datas,nxt)=>{
               onchange={(e)=>(setoption(e.target.value))}/>
       )}
        <p style={{margin:"1%",color:"red"}}>{Msg}</p>
-          <button type="submit" onClick={createAcc}>Create Account</button>
+         {loading?<div style={{display:"flex",justifyContent:'center'}}><Loadingicon/></div>
+         : <button type="submit" onClick={createAcc}>Create Account</button>}
          
           {registeruser==='user'&&(
              <section className="signup">      

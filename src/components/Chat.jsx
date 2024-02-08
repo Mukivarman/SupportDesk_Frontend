@@ -1,29 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { useRef } from "react";
+import { fetch_Api } from "../js/tools";
 
 export default function Chatbox(props){
 const inputfocus=useRef(null)
 const [Chatdata,setChatdata]=useState([])
 const userimg=localStorage.getItem('profile_img')
 
+
 const fetcingchat=async()=>{
-    console.log('fetcing')
-    const getchat=await fetch(`https://supportdesk-hm1g.onrender.com/api/getchats/${props.id}`,{
-        method:'Get',
-        headers:{
-            'Content-Type':'application/json',
-            'authorization':`Bearer ${props.jwttoken}` 
     
-        }
-    })
-    if(getchat.ok){
-        const chats=await getchat.json()
+    const getchat=await fetch_Api(`api/getchats/${props.id}`,'Get',props.jwttoken)
+   
+    if(getchat.Res){
+        const chats=getchat.data
         chats.chats.reverse()
         setChatdata(chats.chats)
         
 
     }else{
-        console.log(await getchat.json())
+        console.log(getchat.msg)
 
     }
 }
@@ -33,7 +29,7 @@ useEffect(()=>{
     if(Chatdata.length===0){
         fetcingchat()
     }
-inputfocus.current.focus()
+   inputfocus.current.focus()
 
 },[])
 
@@ -50,25 +46,17 @@ return()=>(
 
 const updates=async()=>{
   
-    
-        console.log('hit')
-        const getupdatechat=await fetch(`https://supportdesk-hm1g.onrender.com/api/chatlive/${props.id}/${Chatdata.length}`,{
-            method:'Get',
-            headers:{
-                'Content-Type':'application/json',
-            }
-        })
-        if(getupdatechat.ok){
-            console.log('sucesd')
+        const jwt='';
+        const getupdatechat=await fetch_Api(`api/chatlive/${props.id}/${Chatdata.length}`,'Get',jwt)
+      
+        if(getupdatechat.Res){
             fetcingchat()
 
         }else{
-          console.log('no')
+          
           console.log('no changes')
         }
     
-   
-  
     
 }
 

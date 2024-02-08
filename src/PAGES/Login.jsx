@@ -7,6 +7,8 @@ import LogNavbar from "../components/navbar";
 import '../assets/css/Login.css'
 import {Failed} from "../components/Responses";
 import LoadingBar from "../components/Loadings";
+import Loadingicon from "../components/loading";
+import { fetch_Api } from "../js/tools";
 
 
 
@@ -25,22 +27,18 @@ export default function Login(){
     });
     const userString = localStorage.getItem("loguser");
     const user = userString ? JSON.parse(userString) : null;
+   
+
     useEffect(()=>{
 
-            const checkalreadyclint=async()=>{
-                const auth=await fetch('https://supportdesk-hm1g.onrender.com/api/Alreadylogin',{
-                    method:'Get',
-                    headers:{
-                        'Content-Type':'Appliction/json',
-                        'authorization':`Bearer ${user.jwttoken}`
-                    }
 
-                })
-                if(auth.ok){
-                    
-                    const {loginnewuser}=await auth.json()
-                  
-                
+        const checkalreadyclint=async()=>{
+  
+            const Data=await fetch_Api('api/Alreadylogin','Get',user.jwttoken)
+          
+                  if(Data.Res){
+                    const {loginnewuser}=Data.data
+
                     if(loginnewuser.power==='Admin'){
                         navigate('/AdminPage')
                     }else if(loginnewuser.power==='SupportTeam'){
@@ -55,17 +53,15 @@ export default function Login(){
                         navigate('/NewTicket')
                       }
                     }
-                  
-    
-                }else{
+
+                  }else{
                     localStorage.setItem('loguser','')
                     localStorage.setItem('profile_img','')
-                   
                     navigate('/Login')
-                    console.log(await auth.json())
-
-                }
-            } 
+                    console.log(Data.msg)
+                  }
+          
+          }
 
             if(user){
                 checkalreadyclint()
@@ -92,6 +88,45 @@ const handleresponse=(datas,nxt)=>{
     
     }
     
+  const GetDatas=async()=>{
+  const jwt="";
+    const FetchData=await fetch_Api(`api/Login`,'Post',jwt,JSON.stringify(inputs))
+  console.log(FetchData)
+          if(FetchData.Res){
+           
+            const {loginnewuser}=FetchData.data;
+            setloading(false)
+               
+                localStorage.setItem("loguser",JSON.stringify(loginnewuser))
+                localStorage.setItem('profile_img',loginnewuser.image)
+                localStorage.setItem('dept',JSON.stringify({
+                    dept:loginnewuser.dept,
+                    empcode:loginnewuser.empcode
+                }))
+            
+                if(loginnewuser.power==='Admin'){
+                    navigate('/AdminPage')
+                }else if(loginnewuser.power==='SupportTeam'){
+                    navigate('/supporttmhomepage')
+                }else{
+                  if(!loginnewuser.pro_img){
+                    navigate("/profileupdate")
+                  }else{
+                    navigate('/NewTicket')
+                  }
+                }
+            
+
+          }else{
+        
+                setloading(false)
+                setresponse(-1)
+                setmsg(FetchData.msg.msg)
+
+          }
+  
+  }
+    
     const login=async(e)=>{
         e.preventDefault()
        
@@ -101,52 +136,8 @@ const handleresponse=(datas,nxt)=>{
                 setmsg("")
                 setloading(true)
                     localStorage.setItem("loguser",null);
-                          const req=  await fetch("https://supportdesk-hm1g.onrender.com/api/Login",{
-                                method:'Post',
-                                headers:{
-                                    'Content-Type': 'application/json'
-                                },
-                                body:JSON.stringify(inputs),
-                            });
-                            
-                            if(req.ok){
-                             
-                                const {loginnewuser}=await req.json()
-                              
-                                setloading(false)
-                                localStorage.setItem("loguser",JSON.stringify(loginnewuser))
-                                localStorage.setItem('profile_img',loginnewuser.image)
-                                localStorage.setItem('dept',JSON.stringify({
-                                    dept:loginnewuser.dept,
-                                    empcode:loginnewuser.empcode
-                                }))
-                                if(response==0){
-                                if(loginnewuser.power==='Admin'){
-                                    navigate('/AdminPage')
-                                }else if(loginnewuser.power==='SupportTeam'){
-                                    navigate('/supporttmhomepage')
-                                }else{
-                                    console.log(loginnewuser.pro_img)
-                                  if(!loginnewuser.pro_img){
-                                    navigate("/profileupdate")
-                                  }else{
-                                    navigate('/NewTicket')
-                                  }
-                                }
-                            }
-                                
-                            }
-                            else{
-                                setloading(false)
-                                const response=(await req.json())
-                                setresponse(-1)
-                                setmsg(response.msg)
-                                
-                                
-                            }
-
-
-
+                          
+                const logins= GetDatas()
         
             
         }else{
@@ -187,9 +178,10 @@ const handleresponse=(datas,nxt)=>{
             <p style={{margin:"1%",color:"red"}}>{msg}</p>
         
          
-
+     {loading? <div style={{display:'flex',justifyContent:"center",marginRight:"auto",marginLeft:'auto'}}>
+        <Loadingicon /></div>:
             <button type="submit">Login</button>
-            
+       }
    
     
             <div className="signup">

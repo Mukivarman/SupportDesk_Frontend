@@ -7,6 +7,7 @@ import { checkalreadyclint } from "../js/tools";
 import LoadingBar from "../components/Loadings";
 
 
+
 export default function SupportTeam_AllTickets(){
   const navigate=useNavigate()
   const theme=localStorage.getItem('theme')
@@ -37,25 +38,20 @@ export default function SupportTeam_AllTickets(){
     useEffect(()=>{
         const fetchData = async () => {
           try {
-             const getdata=await fetch('https://supportdesk-hm1g.onrender.com/api/GetAllTickets',{
-             method:'Get',
-             headers:{
-                'Content-Type': 'application/json',  
-                'authorization':`Bearer ${user.jwttoken}` 
-            },
-           
+            const getdata=await fetch_Api('api/GetAllTickets','Get',user.jwttoken)
+  
+            if(getdata.Res){
+             
+              setData(getdata.data)
+              setloading(true)
 
-          })
-          if(getdata.ok){
-             const tickets=await getdata.json()
+              
+            }else{
+              console.log(Data.msg)
+              setloading(true)
+            }
             
-             setData(tickets);
-             setloading(true)
-
-          }else{
-            console.log(await getdata.json())
-            setloading(false)
-          }
+            
            
           } catch (error) {
             console.error(error);
@@ -70,6 +66,7 @@ export default function SupportTeam_AllTickets(){
 
      const confirm=(data)=>{
          console.log(data._id)
+         setloading(false)
          navigate(`/ViewTicketDetails/${data._id}`)
          
            
@@ -87,10 +84,10 @@ export default function SupportTeam_AllTickets(){
                     <tr>
                         <th>S.No</th>
                         <th>ID</th>
-                        <th>Date</th>
+                        <th>OccuredDate</th>
                         <th>Subject</th>
                         <th>Assign</th>
-                        <th>Status</th>
+                        <th>Created Date</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -100,10 +97,10 @@ export default function SupportTeam_AllTickets(){
                    <tr key={data._id}>
                        <td className="sno">{index}</td>
                        <td className="ticketid">{data._id}</td>
-                       <td className="ticketdate">{new Date(data. OccuredDate).toLocaleDateString()+"-"+data.OccuredTime}</td>
+                       <td className="ticketdate">{new Date(data. OccuredDate).toLocaleDateString()+"-"+new Date(data.OccuredDate).toLocaleTimeString()}</td>
                        <td className="subject">{data.Subject} </td>
                        <td className="other">{data.AssignedUser===null?('Not Assigned'):(data.AssignedUser.username)}</td>
-                       <td className="other">{data.Status} </td>
+                       <td className="other"> {new Date(data.CreatedAt).toLocaleDateString()+"-"+new Date(data.CreatedAt).toLocaleTimeString()}</td>
                       <td className="other">{data.AssignedUser===null?(<button onClick={()=>confirm(data)}>Take</button>):("Already Assign")}</td>
                     </tr> ))}
                 </tbody>

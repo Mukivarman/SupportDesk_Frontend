@@ -24,7 +24,7 @@ const checkalreadyclint=async(user,setAccesspage,navigate,thispage)=>{
     const auth=await fetch('https://supportdesk-hm1g.onrender.com/api/Alreadylogin',{
         method:'Get',
         headers:{
-            'Content-Type':'Appliction/json',
+            'Content-Type':'Application/json',
             'authorization':`Bearer ${user.jwttoken}`
         }
 
@@ -47,7 +47,9 @@ const checkalreadyclint=async(user,setAccesspage,navigate,thispage)=>{
         if(thispage==='Admin') {
             if(loginnewuser.power==='Admin'){
                 setAccesspage(true)
-            }    else{
+               
+            }   
+             else{
                 localStorage.setItem('loguser','')
                 localStorage.setItem('profile_img','')
                 navigate('/')
@@ -74,6 +76,51 @@ const checkalreadyclint=async(user,setAccesspage,navigate,thispage)=>{
     }
 } 
 
+const fetch_Api=async(linkspath,method,jwt,postdata)=>{
+
+    try{
+        console.log(linkspath+method+jwt+postdata)
+      const option= method==="Get"||method==="Delete"?{
+        method:method,
+        headers:{
+            "Content-Type":"application/json",
+            'authorization':`Bearer ${jwt}`,
+        },
+    }:{
+        method:method,
+        headers:{
+            "Content-Type":"application/json",
+            'authorization':`Bearer ${jwt}`,
+        },
+        body:postdata,
+    }
+
+        const req=await fetch(`https://supportdesk-hm1g.onrender.com/${linkspath}`,option)
+        if(req.ok){
+            const res=await req.json();
+           console.log(res)
+            const res_obj={
+                Res:true,
+               data:res,
+
+            }
+            return res_obj
+        }
+        else{
+            const res=await req.json()
+            console.log(res)
+            const res_obj={
+                Res:false,
+                msg:res,
+            }
+            return res_obj
+        }
+    
+    }catch(e){
+console.error(e)
+
+    }
+}
 
 
-export {checkspace,checkpassword,checkalreadyclint}
+export {checkspace,checkpassword,checkalreadyclint,fetch_Api}

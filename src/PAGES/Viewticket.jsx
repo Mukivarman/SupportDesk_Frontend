@@ -7,6 +7,8 @@ import '../assets/css/viewtickets.css'
 import { checkalreadyclint } from "../js/tools";
 import Success,{Failed} from "../components/Responses";
 import LoadingBar from "../components/Loadings";
+import Loadingicon from "../components/loading";
+import { fetch_Api } from "../js/tools";
 
 export default function ViewTicket(){
     const theme=localStorage.getItem('theme')
@@ -22,6 +24,7 @@ export default function ViewTicket(){
    const [Accesspage,setAccesspage]=useState(false)
    const [loading,setloading]=useState(false)
    const [Enablechat,setEnablechat]=useState(false)
+   const [iconload,seticonload]=useState(false)
 
 
 
@@ -49,27 +52,20 @@ export default function ViewTicket(){
     const fetchdata = async () => {
             
         try {
-
-            const getdata = await fetch(`https://supportdesk-hm1g.onrender.com/api/GetOneTicket/${ticketid}`, {
-                method: 'Get',
-                headers: {
-                    'Content-Type': 'application/json',
-                   'authorization':`Bearer ${user.jwttoken}`
-                },
-            });
-
-            if (getdata.ok) {
-                const result = await getdata.json()
-                setData(result);
-                setStatusoption(result.Status)
+            const getdata=await fetch_Api(`api/GetOneTicket/${ticketid}`,'Get',user.jwttoken)
+  
+            if(getdata.Res){
+                setData(getdata.data);
+                setStatusoption(getdata.data.Status)
                 setloading(true)
-            } 
-            else{
-                console.log(await getdata.json())
-                setloading(false)
+           
+            }else{
+                setloading(true)
                 setResponses(-1)
                 setmsg("Ticket id is not valid")
+              console.log(Data.msg)
             }
+
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -77,53 +73,44 @@ export default function ViewTicket(){
 
 
     const updateticket=async(id)=>{
+        seticonload(true)
         const data={
             status:Statusoption,
             ticketid:id
         }
      if(setStatusoption!=='Select'){
-            const fetching=await fetch('https://supportdesk-hm1g.onrender.com/api/updateTicket',{
-                method:'Post',
-                headers:{
-                    'Content-Type':'application/json',
-                    'authorization':`Bearer ${user.jwttoken}`
-                },
-                body:JSON.stringify(data)
-            })
-            if(fetching.ok){
-                const a=await fetching.json()
-                 setmsg("Update is SucessFull")
-                 setResponses(1)
+        
+     const fetching=await fetch_Api('api/updateTicket','Post',user.jwttoken,JSON.stringify(data))
+  
+     if(fetching.Res){
+        seticonload(false)
+        setmsg("Update is SucessFull")
+        setResponses(1)
 
-            }else{
-                const a=await fetching.json()
-                setmsg(a)
-                setResponses(-1)
-            }
-        }
-    }
-
-    const taketicket=async(ticketid)=>{
       
-        const  taked=await fetch('https://supportdesk-hm1g.onrender.com/api/taketickets',{
-            method:'Post',
-            headers:{
-                'Content-Type': 'application/json',
-                'authorization':`Bearer ${user.jwttoken}`
-            },
-            body:JSON.stringify({Ticketid:ticketid})
-        })
-        if(taked.ok){
-            setmsg("Ticket Taked Succesfull")
-            setResponses(1)
-            console.log(await taked.json())
-        }
-        else{
-            const a=await taked.json()
-            setmsg(a)
-          setResponses(-1)
-        }
-
+     }else{
+        seticonload(false)
+        setmsg(Data.msg)
+        setResponses(-1)
+     }
+    }
+    }
+    const taketicket=async(ticketid)=>{
+      seticonload(true)
+      const taked=await fetch_Api('api/taketickets','Post',user.jwttoken,JSON.stringify({Ticketid:ticketid}))
+  
+      if(taked.Res){
+        seticonload(false)
+        setmsg("Ticket Taked Succesfull")
+        setResponses(1)
+        console.log(taked.data)
+      }else{
+        seticonload(false)
+        const a=taked.msg
+        setmsg(a)
+        setResponses(-1)
+        console.log(Data.msg)
+      }
     }
 
      
@@ -150,9 +137,7 @@ const DivField=(props)=>(
                 <h3 className="field">{props.field}</h3>
                 <span className="fielddata">{props.data}</span>
 </div>)
-const handlesetoption=()=>{
 
-}
 
 const Selectfield = (props) => (
     <select
@@ -182,7 +167,7 @@ const Selectfield = (props) => (
            <div className="viewticketfields">
          
                 <DivField field='Ticket Id :' data={Data._id}/>
-                <DivField field="Occured Date:" data={ new Date(Data.OccuredDate).toLocaleDateString()+"-"+Data.OccuredTime}/>
+                <DivField field="Occured Date:" data={ new Date(Data.OccuredDate).toLocaleDateString()+"-"+new Date(Data.OccuredDate).toLocaleTimeString()}/>
                 <DivField field="Subject:" data={Data.Subject}/>
                 <DivField field="Message" />
                 <p className="textarea">{Data.Message} </p>
@@ -202,9 +187,14 @@ const Selectfield = (props) => (
                          field="Assigned Person:"  
                          data= {Data.AssignedUser===null?
                                     (
-                                        user.power==="SupportTeam"?(<button
+                                        user.power==="SupportTeam"?(
+                                <div style={{display:"block",marginLeft:"auto",marginRight:'auto'}}>
+                                        {iconload?<Loadingicon/>:
+                                        <button
                                         onClick={()=>(taketicket(Data._id,user))}>
-                                        Take</button>)
+                                        Take</button>
+                                        }
+                                 </div>)
                                         :('Waiting To Assign')
                                    
                                    )
@@ -230,10 +220,12 @@ const Selectfield = (props) => (
                                     
                   
               {user.power==='Admin'&&
-                 Data.AssignedUser===null&& <button style={{width:'50%'}}
+                 Data.AssignedUser===null&&<div style={{display:"block",marginLeft:"auto",marginRight:'auto'}}>
+                 {iconload?<Loadingicon/>: <button style={{width:'100%'}}
                 onClick={()=>(navigate(`/allsupportteam/${Data._id}`))}>
                 Assign
                 </button>}
+                </div>}
               
               <br/>
               
@@ -241,9 +233,12 @@ const Selectfield = (props) => (
                  {user.power==='SupportTeam'&& 
                      (Data.AssignedUser)!==null&&
                      (Data.AssignedUser.username)===user.user_name&&
+                     <div style={{display:"block",marginLeft:"auto",marginRight:'auto'}}>
+                     {iconload?<Loadingicon/>:
                      <button style={{margin:'0px',width:'150px'}} 
                      onClick={()=>(updateticket(Data._id))}> 
-                     Update</button>} 
+                     Update</button>}
+                     </div>} 
 
                 </div>
                 

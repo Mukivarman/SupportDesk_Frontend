@@ -5,8 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { checkalreadyclint } from "../js/tools";
 import Input from "../components/Inputs";
 import '../assets/css/User.css'
-import LoadingBar from "../components/Loadings";
+
 import Success,{Failed} from "../components/Responses";
+import Loadingicon from "../components/loading";
 
 
 export default function NewTicket(){
@@ -66,6 +67,7 @@ export default function NewTicket(){
             formdata.append("img",Inputs.img);
             formdata.append('authuser',JSON.stringify(user));
             formdata.append('ticketdetails',JSON.stringify(ticket));
+            
 
       const senddata=  await fetch ("https://supportdesk-hm1g.onrender.com/api/NewTicket",{
             method:"Post",
@@ -76,6 +78,7 @@ export default function NewTicket(){
         })
         if(senddata.ok){
           const  ID=await senddata.json()
+          setloading(false)
           setticketid(ID.ticketID)
           console.log(ID.ticketID)
             setMsg("Ticket Is Successfully Submitted")
@@ -84,6 +87,7 @@ export default function NewTicket(){
             
            
         }else{
+            setloading(false)
             const res=await senddata.json()
             setMsg(res.msg)
             setresponse(-1)
@@ -127,16 +131,14 @@ const Label=(props)=>{
 return Accesspage&& (
 
    <div  className={theme==='light'?'light':'dark'}>
-
+  
    <section className="content"> 
-   {loading&& 
-     <div className="loadingbar" style={theme === 'light' ? { backgroundColor: 'white' } : { backgroundcolor: "#201f32df" }}        >
-         <LoadingBar type='bars' color='black' />
-      </div>}
+ 
     <section className="newticket"> 
            <h2 className="new-ticket-head">
                Submit New Ticket
                    </h2>
+                 
     <form className="ticket" onSubmit={handlesubmit}>
         <Label text='Problem Occured Date:'/>
             <Input  
@@ -183,16 +185,17 @@ return Accesspage&& (
           
             <p style={{color:"red"}}>{Msg}</p>
 
-            <button 
+          {!loading&& <button 
                className="submit-newticket"
                 type="submit" 
-                >submit</button>
-            
+                >submit</button>}
+            {loading&&<div style={{zIndex:"99",display:"block",marginLeft:"auto",marginRight:'auto'}}><Loadingicon/></div>}
         </form>
      </section>
      <SideBar/>
      { response===1&&<Success data={Msg}  exit={handleresponse}/>}
       {response===-1&&<Failed data={Msg} exit={handleresponse}/>}
     </section>
+ 
     </div>)
 }

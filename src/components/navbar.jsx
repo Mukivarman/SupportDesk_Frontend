@@ -17,14 +17,14 @@ import Take from '../assets/images/icons/assign.png'
 import Logouts from '../assets/images/icons/logout.png'
 
 
- function LogNavbar(props){
+ function LogNavbar(){
     const navigate=useNavigate()
     const userString = localStorage.getItem("loguser");
     const [user, setUser] = useState(userString!==''?JSON.parse(userString):null);
     const theme=localStorage.getItem('theme')
 
     
-    console.log(user)
+
 
 
     useEffect(()=>{
@@ -99,7 +99,7 @@ const [AdminLogin,setAdminLogin]=useState([
     {
         path:UnAssigned,
         link:'/ticketfilter/Unassigned',
-        linkpage:'View UnAssigned Tickets'
+        linkpage:'UnAssigned Tickets'
     },
     {
         path:All,

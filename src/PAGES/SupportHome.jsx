@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import Buttons from "../components/Buttons";
 import Divs from "../components/DivsInStatuspage";
 import LoadingBar from "../components/Loadings";
+import { fetch_Api } from "../js/tools";
 
 
 export default function SupportTeamHomePage(){
@@ -32,29 +33,26 @@ export default function SupportTeamHomePage(){
     
 },[])
 
-    useEffect(()=>{
-        const fetching=async()=>{
-          const Data=  await fetch('https://supportdesk-hm1g.onrender.com/api/SupportTeamMemberHomePage',{
-            method:'Get',
-            headers:{
-                'Content-Type': 'application/json',  
-                'authorization':`Bearer ${user.jwttoken}`
-            }
-          })
-    if(Data.ok){
-        const getdata=await Data.json()
-        console.log(getdata)
-        setStatus(getdata)
-        setloading(true)
+const GetDatas=async()=>{
+  
+  const Data=await fetch_Api('api/SupportTeamMemberHomePage','Get',user.jwttoken)
+
+        if(Data.Res){  
         
-}else{
-  console.log(await Data.json())
+          setloading(true)
+          setStatus(Data.data)
+        
+        }else{
+          console.log(Data.msg)
+        }
+
 }
 
-        }
+    useEffect(()=>{
+      
         if(Accesspage){
           if(user.power==='SupportTeam'){
-            fetching()
+          const get=  GetDatas()
           }
         }
         

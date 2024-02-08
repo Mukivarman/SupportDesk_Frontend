@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { checkalreadyclint } from "../js/tools";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { fetch_Api } from "../js/tools";
 import UserDetail from "./UserDetails";
 import LoadingBar from "../components/Loadings";
 
@@ -35,37 +35,26 @@ export default function AllUsersFilter(){
   },[])
   
 
+  const GetDatas=async()=>{
+  
+    const FetchData=await fetch_Api(`api/AllUsersByAdmin/${filter}`,'Get',user.jwttoken)
+  
+          if(FetchData.Res){
+           
+            setData(FetchData.data.data);
+            setloading(true)
+
+          }else{
+            console.log(FetchData.msg)
+          }
+  
+  }
     
   useEffect(()=>{
      setData(null)
 
-    const fetchData = async () => {
-       
-      try { const getdata=await fetch(`https://supportdesk-hm1g.onrender.com/api/AllUsersByAdmin/${filter}`,{
-         method:'Get',
-         headers:{
-            'Content-Type': 'application/json',  
-           'authorization':`Bearer ${user.jwttoken}`
-        },
-       
-
-      })
-      if(getdata.ok){
-         const users=await getdata.json()
-         console.log(users.data)
-         setData(users.data);
-         setloading(true)
-
-      }else{
-        console.log(await getdata.json())
-      }
-       
-      } catch (error) {
-        console.error(error);
-      }
-    };
     if(user&&Accesspage){
-      fetchData();     
+      GetDatas()
     }
 
   },[Accesspage,filter])

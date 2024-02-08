@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { checkalreadyclint } from "../js/tools";
 import LoadingBar from "../components/Loadings";
+import { fetch_Api } from "../js/tools";
 
 export default function ShowAllTickets(){
       const navigate=useNavigate()
@@ -35,25 +36,17 @@ export default function ShowAllTickets(){
       useEffect(()=>{
          
         const fetchData = async () => {
-          try { const getdata=await fetch('https://supportdesk-hm1g.onrender.com/api/GetTicketByUSer-All',{
-             method:'Get',
-             headers:{
-                'Content-Type': 'application/json',  
-                  'authorization':`Bearer ${user.jwttoken}`
-            },
-           
-
-          })
-          if(getdata.ok){
-             const tickets=await getdata.json()
-             console.log(tickets)
-             setData(tickets);
-             setloading(true)
-
-          }
-          else{
-            console.log(await getdata.json())
-          }
+        
+          try { 
+            const Data=await fetch_Api('api/GetTicketByUSer-All','Get',user.jwttoken)
+  
+            if(Data.Res){
+              setData(Data.data);
+              setloading(true)
+            }else{
+              console.log(Data.msg)
+              setloading(true)
+            }
            
           } catch (error) {
             console.error(error);
@@ -78,8 +71,8 @@ export default function ShowAllTickets(){
                 <thead>
                     <tr>
                         <th>S.No</th>
-                        <th>ID</th>
-                        <th>Date</th>
+                        <th>Created Time</th>
+                        <th>Occured Date</th>
                         <th>Subject</th>
                         <th>Assign</th>
                         <th>Status</th>
@@ -91,9 +84,9 @@ export default function ShowAllTickets(){
                 {Data&& Data.map((data,index)=>(
                    <tr key={data._id}>
                        <td className="sno">{index}</td>
-                       <td className="ticketid">{data._id}</td>
-                       <td className="ticketdate">  {new Date(data.OccuredDate).toLocaleDateString()}-
-                        {data.OccuredTime}</td>
+                       <td className="ticketid">{`${new Date(data.CreatedAt).toLocaleDateString()} -  ${new Date(data.CreatedAt).toLocaleTimeString()}`}</td>
+                       <td className="ticketdate"> {` ${new Date(data.OccuredDate).toLocaleDateString()} - ${new Date(data.OccuredDate).toLocaleTimeString()}`}
+                        </td>
                        <td className="subject">{data.Subject} </td>
                        <td className="other">{data.AssignedUser===null?('Not Assigned'):(data.AssignedUser.username)}</td>
                        <td className="other">{data.Status} </td>

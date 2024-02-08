@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { checkalreadyclint } from "../js/tools";
 import LoadingBar from "../components/Loadings";
+import { fetch_Api } from "../js/tools";
 
 export default function AdminShowAllTickets(){
      const theme=localStorage.getItem('theme')
@@ -13,6 +14,7 @@ export default function AdminShowAllTickets(){
       const user = userString ? JSON.parse(userString) : null;
       const [Accesspage,setAccesspage]=useState(false)
       const [loading,setloading]=useState(false)
+
 
      
       useEffect(()=>{
@@ -27,32 +29,26 @@ export default function AdminShowAllTickets(){
       
   },[])
 
+  const GetDatas=async()=>{
+  
+    const FetchData=await fetch_Api('api/GetAllTickets','Get',user.jwttoken)
+  
+          if(FetchData.Res){
+              
+            setData(FetchData.data);
+            setloading(true)
+
+          }else{
+            console.log(FetchData.msg)
+          }
+  
+  }
+  
       useEffect(()=>{
 
-        const fetchData = async () => {
-          try { const getdata=await fetch('https://supportdesk-hm1g.onrender.com/api/GetAllTickets',{
-             method:'Get',
-             headers:{
-                'Content-Type': 'application/json',  
-               'authorization':`Bearer ${user.jwttoken}`
-            },
-           
-
-          })
-          if(getdata.ok){
-             const tickets=await getdata.json()
-             console.log(tickets)
-             setData(tickets);
-             setloading(true)
-
-          }
-           
-          } catch (error) {
-            console.error(error);
-          }
-        };
+    
         if(user&&Accesspage){
-          fetchData();     
+        GetDatas()  
         }
 
       },[Accesspage])
@@ -83,7 +79,7 @@ export default function AdminShowAllTickets(){
                    <tr key={data._id}>
                        <td className="sno">{index}</td>
                        <td className="ticketid">{data._id}</td>
-                       <td className="ticketdate"> { new Date(data.OccuredDate).toLocaleDateString()+" ~ "+data.OccuredTime}</td>
+                       <td className="ticketdate"> { new Date(data.OccuredDate).toLocaleDateString()+" ~ "+new Date(data.OccuredDate).toLocaleTimeString()}</td>
                        <td className="subject">{data.Subject} </td>
                        <td className="other">{data.AssignedUser===null?('Not Assigned'):(data.AssignedUser.username)}</td>
                        <td className="other">{data.Status} </td>

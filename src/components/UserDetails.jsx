@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { checkalreadyclint } from "../js/tools";
 import DialogBox from "./OpenDialogue";
 import Success,{Failed} from "./Responses";
+import { fetch_Api } from "../js/tools";
 
 export default function UserDetail(props){
    
@@ -45,21 +46,13 @@ export default function UserDetail(props){
 
 
   const GetData=async()=>{
-
-    const  res =await fetch(`https://supportdesk-hm1g.onrender.com/api/GetAllTicketsLISTby/${data._id}/${data.power}`,
-    {
-        method:'Get',
-        headers:{
-            'Content-Type': 'application/json',  
-            'authorization':`Bearer ${user.jwttoken}`
-        }
-    })
-    if(res.ok){
-        const List=await res.json()
-        setListdata(List)
-    }
-    else{
-        console.log(await res.json())
+    const res=await fetch_Api(`api/GetAllTicketsLISTby/${data._id}/${data.power}`,'Get',user.jwttoken)
+  
+    if(res.Res){
+        setListdata(res.data)
+        setconstloading(true)
+    }else{
+      console.log(res.msg)
     }
   }
 useEffect(()=>{
@@ -69,28 +62,19 @@ useEffect(()=>{
 },[Confirm])
 
 const deleteuser= async()=>{
-    console.log('clicked')
-    const req=await fetch(`https://supportdesk-hm1g.onrender.com/api/DeleteUser/${data._id}/${data.power}`,{
-        method:'Delete',
-        headers:{
-            'Content-Type': 'application/json',  
-            'authorization':`Bearer ${user.jwttoken}`
-        }
-    })
+   
+    const req=await fetch_Api(`api/DeleteUser/${data._id}/${data.power}`,"Delete",user.jwttoken)
+
     if(req){
-        const resmsg=await req.json()
-        setmsg(resmsg.msg)
+        setmsg(req.data)
         setresponse(1)
-        
-        
+         
     }
     else{
-        const resmsg=await req.json()
-        setmsg(resmsg.msg)
+        
+        setmsg(req.msg)
         setresponse(-1)
     }
-    
-
 
 }
 

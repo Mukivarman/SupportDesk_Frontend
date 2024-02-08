@@ -1,27 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { json } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import LogNavbar from "./navbar";
 import { checkalreadyclint } from "../js/tools";
+import Loadingicon from "../components/loading";
+import { fetch_Api } from "../js/tools";
 
 
 
 export default function AllSupportTeamList(props){
     const theme=localStorage.getItem('theme')
     const {ticketid}=useParams()
-console.log(ticketid)
+
     const [List,seTList]=useState(null)
     const navigate=useNavigate()
     const [Accesspage,setAccesspage]=useState(false)
      const [loading,setloading]=useState(false)
     const userString = localStorage.getItem("loguser");
     const user = userString ? JSON.parse(userString) : null;
+    const [iconload,seticonload]=useState(false)
     
     useEffect(()=>{
   
         if(user){
-          const thispage=user.power
+          const thispage="Admin"
             checkalreadyclint(user,setAccesspage,navigate,thispage)
         }
         else{
@@ -29,53 +30,54 @@ console.log(ticketid)
         }
       
   },[])
-
-    useEffect(()=>{
-        const getteam=async()=>{
-        const fetchData=await fetch('https://supportdesk-hm1g.onrender.com/api/supportteamlist',{
-            method:'Get',
-            headers:{
-                'Content-Type': 'application/json',
-                'authorization':`Bearer ${user.jwttoken}`
-            },
-        })
-        if(fetchData.ok){
-            const getdata=await fetchData.json()
-            seTList(getdata);
-            console.log(List)
+  const GetDatas=async()=>{
+  
+     Data=await fetch_Api('api/supportteamlist','Get',user.jwttoken)
+  
+          if(Data.Res){
+            seTList(Data.data);
+         
             setloading(true)
-        }
-    }
-    getteam()
+          }else{
+            setloading(true)
+            console.log(Data.msg)
+          }
+  
+  }
+  
+    useEffect(()=>{
+      
+  if(Accesspage){
+    const get=GetDatas()
+  }
 
-    },[])
+    },[Accesspage])
 
 
     const handleAssingn=async(id,list)=>{
-
+        seticonload(true)
             const detail={
                 ticketid:id,
                 supportteamid:list._id,
             }
-
-         const assign=await fetch('https://supportdesk-hm1g.onrender.com/api/Assign',{
-            method:'post',
-            headers:{
-                'Content-Type':'Application/json',
-                'authorization':`Bearer ${user.jwttoken}`
-            },
-            body:JSON.stringify(detail)
-         })
-         if(assign.ok){
-            navigate(`/ViewTicketDetails/${id}`)
-         }else{
-            console.log(await assign.json())
-         }
+            const assign=await fetch_Api('api/Assign','Post',user.jwttoken,JSON.stringify(detail))
+  
+            if(assign.Res){
+                seticonload(false)
+                navigate(`/ViewTicketDetails/${id}`)
+              setloading(true)
+            }else{
+               
+              console.log(Data.msg)
+            }
+    
     }
+       
+    
 
 return Accesspage&&loading&&(
     <section className={theme==='light'?'light':'dark'}>
-        <LogNavbar page={user.power}/>
+      
     <section className="content">
     <section className="AllTickets" style={{width:'100%'}}>
     <div className="allticketsdetails">
@@ -95,7 +97,8 @@ return Accesspage&&loading&&(
                     <td>{index+1}</td>
                     <td>{list.username}</td>
                     <td>{list.email}</td>
-                    <td><button style={{margin:"auto"}} onClick={()=>(handleAssingn(ticketid,list))}>Assign</button></td>
+                    <td>
+                        {iconload?<Loadingicon/>:<button style={{margin:"auto"}} onClick={()=>(handleAssingn(ticketid,list))}>Assign</button>}</td>
                 </tr>))}
             </tbody>
         </table>

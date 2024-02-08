@@ -1,8 +1,4 @@
 import React, { useEffect } from "react";
-import SideBar from "../components/Sidebar";
-import LogNavbar from "../components/navbar";
-import { Link, Navigate } from "react-router-dom";
-
 import Piechart from "../components/Piecharts";
 import { useState } from "react";
 import Barchart from "../components/Barcharts";
@@ -11,6 +7,7 @@ import { checkalreadyclint } from "../js/tools";
 import Buttons from "../components/Buttons";
 import Divs from "../components/DivsInStatuspage";
 import LoadingBar from "../components/Loadings";
+import { fetch_Api } from "../js/tools";
 
 
 export default function Adminpage(){
@@ -35,28 +32,26 @@ export default function Adminpage(){
     
 },[])
 
-    useEffect(()=>{
-        const fetching=async()=>{
-          const Data=  await fetch('https://supportdesk-hm1g.onrender.com/api/status',{
-            method:'Get',
-            headers:{
-                'Content-Type': 'application/json',  
-                'authorization':`Bearer ${user.jwttoken}`
-            }
-          })
-    if(Data.ok){
-      
-        const getdata=await Data.json()
-        setStatus(getdata)
-        setloading(true)
-        
-}else{
-  console.log(await Data.json())
-}
+const GetDatas=async()=>{
+  
+  const Data=await fetch_Api('api/status','Get',user.jwttoken)
+
+        if(Data.Res){
+          setStatus(Data.data)
+          setloading(true)
+        }else{
+          console.log(Data.msg)
         }
-if(user&&Accesspage){
-        fetching()
+
 }
+
+  useEffect(()=>{
+        
+      if(user&&Accesspage){
+
+          GetDatas()
+
+      }
     },[Accesspage]);
 
    
