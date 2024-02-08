@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useRef } from "react";
 import { fetch_Api } from "../js/tools";
+import Loadingicon from "./loading";
 
 export default function Chatbox(props){
 const inputfocus=useRef(null)
 const [Chatdata,setChatdata]=useState([])
 const userimg=localStorage.getItem('profile_img')
+const [loading,setloading]=useState(false)
 
 
 const fetcingchat=async()=>{
@@ -94,6 +96,7 @@ const Userchat = (props) => (
   
 
 const handleinputchat=async()=>{
+    setloading(true)
     if(inputs!==""){
         const res=await fetch('https://supportdesk-hm1g.onrender.com/api/postchat',{
             method:'Post',
@@ -107,13 +110,14 @@ const handleinputchat=async()=>{
         })
         if(res.ok){
             setinputs('')
-          
+          setloading(false)
             fetcingchat()
 
 
         }
         else{
             console.log(await res.json())
+            setloading(false)
         }
     }else{
         console.log('input empty')
@@ -150,13 +154,13 @@ const handleSubmit = (e) => {
                 onChange={(e)=>(setinputs(e.target.value))}
                 ref={inputfocus}
             ></input>
-            
+           {loading?<div style={{display:'flex',justifyContent:'center'}}><Loadingicon/></div>: 
             <button 
                style={{width:'10%'}}
                onClick={handleinputchat}
                type="submit"
                name="input"
-               >Sent</button>
+               >Sent</button>}
                </form>
 
             </div>
