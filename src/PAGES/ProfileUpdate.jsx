@@ -6,7 +6,7 @@ import LogNavbar from "../components/navbar";
 import { checkalreadyclint } from "../js/tools";
 import { useNavigate } from "react-router-dom";
 import Input from "../components/Inputs";
-
+import Loadingicon from "../components/loading";
 
 
 
@@ -62,6 +62,7 @@ export default function ProfileUpdate(){
      
 
         const submitpic=async()=>{
+            setloading(true)
             if(img&&inputs.EMPcode!==''&&inputs.department!==''){
                 try{
                 
@@ -86,8 +87,11 @@ const formdata=new FormData();
                         empcode:data.empcode
                     }))
                     console.log(data)
+                    setloading(false)
                     navigate('/NewTicket')
                    
+                }else{
+                    console.log("profile update failed")
                 }
 
              } catch(e){
@@ -128,10 +132,10 @@ const formdata=new FormData();
            
             <input type="file" onChange={handlechange} accept="image/*"></input>
 
-            <button type="submit" 
+           {loading?<div style={{display:'flex',justifyContent:"center",}}><Loadingicon/></div>: <button type="submit" 
                 className="upload-img-btn"  
                    onClick={submitpic}>
-                      Upload Image</button>
+                      Upload Profile</button>}
                        
             <button className="skip" onClick={skippage}>Skip</button>
         </section>
