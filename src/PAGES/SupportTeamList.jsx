@@ -32,7 +32,7 @@ export default function AllSupportTeamList(props){
   },[])
   const GetDatas=async()=>{
   
-     Data=await fetch_Api('api/supportteamlist','Get',user.jwttoken)
+   const  Data=await fetch_Api('api/supportteamlist','Get',user.jwttoken)
   
           if(Data.Res){
             seTList(Data.data);
